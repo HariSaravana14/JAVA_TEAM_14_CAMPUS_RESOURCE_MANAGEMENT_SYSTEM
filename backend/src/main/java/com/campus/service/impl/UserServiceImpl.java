@@ -7,13 +7,17 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.campus.dto.request.UpdateUserRequest;
+import com.campus.dto.response.StudentStatsResponse;
 import com.campus.dto.response.UserResponse;
 import com.campus.entity.User;
+import com.campus.enums.Role;
 import com.campus.enums.UserStatus;
+import com.campus.exception.ConflictException;
 import com.campus.exception.ResourceNotFoundException;
 import com.campus.mapper.UserMapper;
 import com.campus.repository.UserRepository;
 import com.campus.service.UserService;
+import com.campus.util.SecurityUtil;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -63,5 +67,40 @@ public class UserServiceImpl implements UserService {
 				.orElseThrow(() -> new ResourceNotFoundException("User not found"));
 		user.setStatus(UserStatus.INACTIVE);
 		userRepository.save(user);
+	}
+
+	@Override
+	public List<UserResponse> getMyStudents() {
+		User staff = currentUser();
+		if (staff.getRole() != Role.STAFF) {
+			throw new ConflictException("Only STAFF can view their students");
+		}
+		return userRepository.findByAdvisorId(staff.getId()).stream()
+				.map(userMapper::toResponse)
+				.toList();
+	}
+
+	@Override
+	public StudentStatsResponse getMyStudentStats() {
+		User staff = currentUser();
+		if (staff.getRole() != Role.STAFF) {
+			throw new ConflictException("Only STAFF can view student stats");
+		}
+		
+		long total = userRepository.countByAdvisorId(staff.getId());
+		long active = userRepository.countByAdvisorIdAndStatus(staff.getId(), UserStatus.ACTIVE);
+		long inactive = userRepository.countByAdvisorIdAndStatus(staff.getId(), UserStatus.INACTIVE);
+		
+		return StudentStatsResponse.builder()
+				.totalStudents(total)
+				.activeStudents(active)
+				.inactiveStudents(inactive)
+				.build();
+	}
+
+	private User currentUser() {
+		String email = SecurityUtil.requireCurrentUsername();
+		return userRepository.findByEmail(email)
+				.orElseThrow(() -> new ResourceNotFoundException("User not found"));
 	}
 }

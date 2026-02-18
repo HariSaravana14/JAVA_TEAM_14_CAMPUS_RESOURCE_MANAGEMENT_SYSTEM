@@ -39,14 +39,22 @@ public class JwtTokenProvider {
 	}
 
 	public String generateToken(String subject) {
+		return generateToken(subject, jwtExpirationMs);
+	}
+
+	public String generateToken(String subject, long expirationMs) {
 		Date now = new Date();
-		Date expiry = new Date(now.getTime() + jwtExpirationMs);
+		Date expiry = new Date(now.getTime() + expirationMs);
 		return Jwts.builder()
 				.setSubject(subject)
 				.setIssuedAt(now)
 				.setExpiration(expiry)
 				.signWith(key, SignatureAlgorithm.HS256)
 				.compact();
+	}
+
+	public long getExpirationTime(long expirationMs) {
+		return System.currentTimeMillis() + expirationMs;
 	}
 
 	public String getUsernameFromToken(String token) {

@@ -14,7 +14,9 @@ import lombok.Data;
 public class BookingResponse {
 	private UUID id;
 	private UUID userId;
+	private String userName;
 	private UUID resourceId;
+	private String resourceName;
 	private LocalDate bookingDate;
 	private LocalTime startTime;
 	private LocalTime endTime;
@@ -22,8 +24,10 @@ public class BookingResponse {
 	private ApprovalStage approvalStage;
 	private VisibilityType visibility;
 	private UUID staffApprovedBy;
+	private String staffApprovedByName;
 	private Instant staffApprovedAt;
 	private UUID adminApprovedBy;
+	private String adminApprovedByName;
 	private Instant adminApprovedAt;
 	private Instant createdAt;
 	private Instant updatedAt;

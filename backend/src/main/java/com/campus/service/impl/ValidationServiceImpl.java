@@ -2,6 +2,7 @@ package com.campus.service.impl;
 
 import java.time.Duration;
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.time.YearMonth;
 import java.util.List;
 
@@ -30,6 +31,14 @@ public class ValidationServiceImpl implements ValidationService {
 
 	private static final List<ApprovalStage> EXCLUDED_STAGES = List.of(ApprovalStage.REJECTED, ApprovalStage.CANCELLED);
 
+	// Operating hours: 9 AM to 4 PM
+	private static final LocalTime OPERATING_START = LocalTime.of(9, 0);
+	private static final LocalTime OPERATING_END = LocalTime.of(16, 0);
+	
+	// Lunch break: 12:30 PM to 1:30 PM
+	private static final LocalTime LUNCH_START = LocalTime.of(12, 30);
+	private static final LocalTime LUNCH_END = LocalTime.of(13, 30);
+
 	private final ResourceRepository resourceRepository;
 	private final BookingRepository bookingRepository;
 	private final PolicyService policyService;
@@ -56,6 +65,32 @@ public class ValidationServiceImpl implements ValidationService {
 		}
 		if (durationHours <= 0) {
 			throw new ConflictException("Invalid duration");
+		}
+
+		// Validate booking date is not in the past
+		if (request.getBookingDate().isBefore(LocalDate.now())) {
+			throw new ConflictException("Cannot book for past dates");
+		}
+
+		// Validate operating hours
+		LocalTime startTime = request.getStartTime();
+		LocalTime endTime = request.getEndTime();
+		
+		if (startTime.isBefore(OPERATING_START)) {
+			throw new ConflictException("Booking cannot start before " + OPERATING_START + " (9:00 AM)");
+		}
+		if (endTime.isAfter(OPERATING_END)) {
+			throw new ConflictException("Booking cannot end after " + OPERATING_END + " (4:00 PM)");
+		}
+
+		// Validate lunch break - check if booking overlaps with lunch
+		if (isOverlapping(startTime, endTime, LUNCH_START, LUNCH_END)) {
+			throw new ConflictException("Booking cannot overlap with lunch break (12:30 PM - 1:30 PM)");
+		}
+
+		// If booking for today, ensure start time is not in the past
+		if (request.getBookingDate().equals(LocalDate.now()) && startTime.isBefore(LocalTime.now())) {
+			throw new ConflictException("Cannot book a slot that has already passed");
 		}
 
 		Resource resource = resourceRepository.findById(request.getResourceId())
@@ -109,6 +144,13 @@ public class ValidationServiceImpl implements ValidationService {
 		if (maxHoursMonth > 0 && usedHoursMonth + durationHours > maxHoursMonth) {
 			throw new BookingLimitExceededException("Monthly hours limit exceeded");
 		}
+	}
+
+	/**
+	 * Check if two time ranges overlap.
+	 */
+	private boolean isOverlapping(LocalTime start1, LocalTime end1, LocalTime start2, LocalTime end2) {
+		return start1.isBefore(end2) && start2.isBefore(end1);
 	}
 
 	private int safe(Integer value) {

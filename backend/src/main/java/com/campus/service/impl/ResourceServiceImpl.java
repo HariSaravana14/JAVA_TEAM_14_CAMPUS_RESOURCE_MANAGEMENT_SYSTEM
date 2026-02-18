@@ -37,6 +37,13 @@ public class ResourceServiceImpl implements ResourceService {
 	}
 
 	@Override
+	public ResourceResponse getResourceById(UUID id) {
+		Resource resource = resourceRepository.findById(id)
+				.orElseThrow(() -> new ResourceNotFoundException("Resource not found"));
+		return resourceMapper.toResponse(resource);
+	}
+
+	@Override
 	@Transactional
 	public ResourceResponse updateResource(UUID id, UpdateResourceRequest request) {
 		Resource resource = resourceRepository.findById(id)
@@ -50,6 +57,9 @@ public class ResourceServiceImpl implements ResourceService {
 		}
 		if (request.getCapacity() != null) {
 			resource.setCapacity(request.getCapacity());
+		}
+		if (request.getStatus() != null) {
+			resource.setStatus(request.getStatus());
 		}
 
 		return resourceMapper.toResponse(resourceRepository.save(resource));
@@ -67,5 +77,13 @@ public class ResourceServiceImpl implements ResourceService {
 				.orElseThrow(() -> new ResourceNotFoundException("Resource not found"));
 		resource.setStatus(request.getStatus());
 		return resourceMapper.toResponse(resourceRepository.save(resource));
+	}
+
+	@Override
+	@Transactional
+	public void deleteResource(UUID id) {
+		Resource resource = resourceRepository.findById(id)
+				.orElseThrow(() -> new ResourceNotFoundException("Resource not found"));
+		resourceRepository.delete(resource);
 	}
 }

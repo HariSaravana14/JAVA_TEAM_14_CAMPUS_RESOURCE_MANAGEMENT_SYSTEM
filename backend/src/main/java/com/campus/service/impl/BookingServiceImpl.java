@@ -20,6 +20,7 @@ import com.campus.repository.BookingStatusHistoryRepository;
 import com.campus.repository.UserRepository;
 import com.campus.service.BookingService;
 import com.campus.service.ValidationService;
+import com.campus.util.BookingResponseEnricher;
 import com.campus.util.SecurityUtil;
 
 import lombok.RequiredArgsConstructor;
@@ -35,6 +36,7 @@ public class BookingServiceImpl implements BookingService {
 	private final BookingStatusHistoryRepository historyRepository;
 	private final ValidationService validationService;
 	private final BookingMapper bookingMapper;
+	private final BookingResponseEnricher enricher;
 
 	@Override
 	@Transactional
@@ -80,7 +82,7 @@ public class BookingServiceImpl implements BookingService {
 				.changedBy(user.getId())
 				.build());
 
-		return bookingMapper.toResponse(saved);
+		return enricher.enrich(bookingMapper.toResponse(saved));
 	}
 
 	@Override
@@ -88,11 +90,11 @@ public class BookingServiceImpl implements BookingService {
 		String email = SecurityUtil.requireCurrentUsername();
 		User user = userRepository.findByEmail(email)
 				.orElseThrow(() -> new ResourceNotFoundException("User not found"));
-		return bookingRepository.findByUserIdOrderByCreatedAtDesc(user.getId()).stream().map(bookingMapper::toResponse).toList();
+		return enricher.enrichAll(bookingRepository.findByUserIdOrderByCreatedAtDesc(user.getId()).stream().map(bookingMapper::toResponse).toList());
 	}
 
 	@Override
 	public List<BookingResponse> getAllBookings() {
-		return bookingRepository.findAllByOrderByCreatedAtDesc().stream().map(bookingMapper::toResponse).toList();
+		return enricher.enrichAll(bookingRepository.findAllByOrderByCreatedAtDesc().stream().map(bookingMapper::toResponse).toList());
 	}
 }

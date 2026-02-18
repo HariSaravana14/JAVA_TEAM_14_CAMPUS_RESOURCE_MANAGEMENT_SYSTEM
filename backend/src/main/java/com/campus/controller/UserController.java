@@ -1,11 +1,13 @@
 package com.campus.controller;
 
 import com.campus.dto.request.UpdateUserRequest;
+import com.campus.dto.response.StudentStatsResponse;
 import com.campus.dto.response.UserResponse;
 import com.campus.service.UserService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -38,5 +40,17 @@ public class UserController {
 	public ResponseEntity<Void> softDelete(@PathVariable UUID id) {
 		userService.softDeleteUser(id);
 		return ResponseEntity.noContent().build();
+	}
+
+	@GetMapping("/my-students")
+	@PreAuthorize("hasRole('STAFF')")
+	public ResponseEntity<List<UserResponse>> getMyStudents() {
+		return ResponseEntity.ok(userService.getMyStudents());
+	}
+
+	@GetMapping("/my-students/stats")
+	@PreAuthorize("hasRole('STAFF')")
+	public ResponseEntity<StudentStatsResponse> getMyStudentStats() {
+		return ResponseEntity.ok(userService.getMyStudentStats());
 	}
 }

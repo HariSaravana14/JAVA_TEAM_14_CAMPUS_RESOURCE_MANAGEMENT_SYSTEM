@@ -11,9 +11,13 @@ import java.util.UUID;
 public interface ResourceService {
 	ResourceResponse createResource(CreateResourceRequest request);
 
+	ResourceResponse getResourceById(UUID id);
+
 	ResourceResponse updateResource(UUID id, UpdateResourceRequest request);
 
 	List<ResourceResponse> getAllResources();
 
 	ResourceResponse changeStatus(UUID id, ChangeResourceStatusRequest request);
+
+	void deleteResource(UUID id);
 }

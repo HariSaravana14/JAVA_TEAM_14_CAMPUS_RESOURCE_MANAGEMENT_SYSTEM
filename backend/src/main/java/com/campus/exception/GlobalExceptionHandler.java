@@ -1,19 +1,23 @@
 package com.campus.exception;
 
-import com.campus.dto.response.ApiErrorResponse;
-import com.campus.dto.response.FieldErrorItem;
-import jakarta.servlet.http.HttpServletRequest;
-import lombok.extern.slf4j.Slf4j;
+import java.time.Instant;
+import java.util.List;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.AccessDeniedException;
+import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
-import java.time.Instant;
-import java.util.List;
+import com.campus.dto.response.ApiErrorResponse;
+import com.campus.dto.response.FieldErrorItem;
+
+import jakarta.servlet.http.HttpServletRequest;
+import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @RestControllerAdvice
@@ -47,6 +51,30 @@ public class GlobalExceptionHandler {
 				.path(request.getRequestURI())
 				.build();
 		return ResponseEntity.status(HttpStatus.FORBIDDEN).body(body);
+	}
+
+	@ExceptionHandler(BadCredentialsException.class)
+	public ResponseEntity<ApiErrorResponse> handleBadCredentials(BadCredentialsException ex, HttpServletRequest request) {
+		ApiErrorResponse body = ApiErrorResponse.builder()
+				.timestamp(Instant.now())
+				.status(HttpStatus.UNAUTHORIZED.value())
+				.error(HttpStatus.UNAUTHORIZED.getReasonPhrase())
+				.message("Invalid email or password")
+				.path(request.getRequestURI())
+				.build();
+		return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(body);
+	}
+
+	@ExceptionHandler(AuthenticationException.class)
+	public ResponseEntity<ApiErrorResponse> handleAuthenticationException(AuthenticationException ex, HttpServletRequest request) {
+		ApiErrorResponse body = ApiErrorResponse.builder()
+				.timestamp(Instant.now())
+				.status(HttpStatus.UNAUTHORIZED.value())
+				.error(HttpStatus.UNAUTHORIZED.getReasonPhrase())
+				.message("Authentication failed: " + ex.getMessage())
+				.path(request.getRequestURI())
+				.build();
+		return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(body);
 	}
 
 	@ExceptionHandler(ResourceNotFoundException.class)
