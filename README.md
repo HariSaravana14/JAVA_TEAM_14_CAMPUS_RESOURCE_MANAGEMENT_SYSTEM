@@ -16,6 +16,160 @@ Campus Resource Management System (CRMS) is a role-based web application for boo
 - React Router
 - Axios
 
+## Project Structure
+
+```
+campus-resource-management/
+├── README.md
+├── backend/                                    # Spring Boot Backend
+│   ├── pom.xml                                 # Maven configuration
+│   ├── mvnw, mvnw.cmd                          # Maven wrapper
+│   └── src/
+│       ├── main/
+│       │   ├── java/com/campus/
+│       │   │   ├── CampusApplication.java      # Main entry point
+│       │   │   ├── config/
+│       │   │   │   ├── CorsConfig.java         # CORS configuration
+│       │   │   │   └── JpaConfig.java          # JPA/Hibernate config
+│       │   │   ├── controller/
+│       │   │   │   ├── ApprovalController.java # Booking approvals (Staff/Admin)
+│       │   │   │   ├── AuthController.java     # Login, Register, Password reset
+│       │   │   │   ├── BookingController.java  # Create/view bookings
+│       │   │   │   ├── PolicyController.java   # Booking policy limits
+│       │   │   │   ├── ResourceController.java # Resource CRUD
+│       │   │   │   └── UserController.java     # User management
+│       │   │   ├── dto/
+│       │   │   │   ├── request/                # Request DTOs
+│       │   │   │   │   ├── CreateBookingRequest.java
+│       │   │   │   │   ├── CreateResourceRequest.java
+│       │   │   │   │   ├── LoginRequest.java
+│       │   │   │   │   ├── RegisterRequest.java
+│       │   │   │   │   ├── UpdateResourceRequest.java
+│       │   │   │   │   ├── UpdateUserRequest.java
+│       │   │   │   │   └── ...
+│       │   │   │   └── response/               # Response DTOs
+│       │   │   │       ├── AuthResponse.java
+│       │   │   │       ├── BookingResponse.java
+│       │   │   │       ├── BookingStatsResponse.java
+│       │   │   │       ├── ResourceResponse.java
+│       │   │   │       ├── UserResponse.java
+│       │   │   │       └── ...
+│       │   │   ├── entity/                     # JPA Entities
+│       │   │   │   ├── Booking.java
+│       │   │   │   ├── BookingPolicy.java
+│       │   │   │   ├── BookingStatusHistory.java
+│       │   │   │   ├── OtpToken.java
+│       │   │   │   ├── Resource.java
+│       │   │   │   └── User.java
+│       │   │   ├── enums/
+│       │   │   │   ├── ApprovalStage.java      # PENDING_STAFF, PENDING_ADMIN, etc.
+│       │   │   │   ├── ResourceStatus.java     # AVAILABLE, MAINTENANCE, INACTIVE
+│       │   │   │   ├── Role.java               # STUDENT, STAFF, ADMIN
+│       │   │   │   ├── UserStatus.java         # ACTIVE, INACTIVE
+│       │   │   │   └── VisibilityType.java     # PUBLIC, STAFF_ONLY, PRIVATE
+│       │   │   ├── exception/
+│       │   │   │   ├── GlobalExceptionHandler.java
+│       │   │   │   ├── ConflictException.java
+│       │   │   │   ├── ResourceNotFoundException.java
+│       │   │   │   └── BookingLimitExceededException.java
+│       │   │   ├── mapper/                     # MapStruct mappers
+│       │   │   │   ├── BookingMapper.java
+│       │   │   │   ├── ResourceMapper.java
+│       │   │   │   └── UserMapper.java
+│       │   │   ├── repository/                 # Spring Data JPA repositories
+│       │   │   │   ├── BookingRepository.java
+│       │   │   │   ├── BookingPolicyRepository.java
+│       │   │   │   ├── ResourceRepository.java
+│       │   │   │   ├── UserRepository.java
+│       │   │   │   └── ...
+│       │   │   ├── security/
+│       │   │   │   ├── SecurityConfig.java     # Spring Security config
+│       │   │   │   ├── JwtTokenProvider.java   # JWT generation/validation
+│       │   │   │   ├── JwtAuthenticationFilter.java
+│       │   │   │   ├── CustomUserDetailsService.java
+│       │   │   │   └── UserPrincipal.java
+│       │   │   ├── service/
+│       │   │   │   ├── ApprovalService.java
+│       │   │   │   ├── AuthService.java
+│       │   │   │   ├── BookingService.java
+│       │   │   │   ├── PolicyService.java
+│       │   │   │   ├── ResourceService.java
+│       │   │   │   ├── SlotService.java
+│       │   │   │   ├── UserService.java
+│       │   │   │   ├── ValidationService.java
+│       │   │   │   └── impl/                   # Service implementations
+│       │   │   │       ├── ApprovalServiceImpl.java
+│       │   │   │       ├── AuthServiceImpl.java
+│       │   │   │       ├── BookingServiceImpl.java
+│       │   │   │       ├── PolicyServiceImpl.java
+│       │   │   │       ├── ResourceServiceImpl.java
+│       │   │   │       ├── SlotServiceImpl.java
+│       │   │   │       ├── UserServiceImpl.java
+│       │   │   │       └── ValidationServiceImpl.java
+│       │   │   └── util/
+│       │   │       ├── BookingResponseEnricher.java  # Adds userName/resourceName
+│       │   │       ├── DateUtil.java
+│       │   │       └── SecurityUtil.java
+│       │   └── resources/
+│       │       └── application.properties      # App configuration
+│       └── test/                               # Unit tests
+│
+└── frontend/                                   # React Frontend
+    ├── package.json                            # NPM dependencies
+    ├── vite.config.js                          # Vite configuration
+    ├── index.html                              # Entry HTML
+    └── src/
+        ├── main.jsx                            # React entry point
+        ├── App.jsx                             # Root component
+        ├── api/                                # Axios API calls
+        │   ├── axiosInstance.js                # Axios config with JWT interceptor
+        │   ├── authApi.js                      # Auth endpoints
+        │   ├── bookingApi.js                   # Booking endpoints
+        │   ├── policyApi.js                    # Policy endpoints
+        │   ├── resourceApi.js                  # Resource endpoints
+        │   └── userApi.js                      # User endpoints
+        ├── components/
+        │   ├── booking/
+        │   │   ├── ApprovalStatusTracker.jsx   # Visual approval progress
+        │   │   ├── BookingDetailsCard.jsx      # Booking detail view
+        │   │   ├── BookingForm.jsx             # Create booking form
+        │   │   └── BookingTable.jsx            # Bookings list table
+        │   ├── layout/
+        │   │   ├── Navbar.jsx                  # Top nav with session timer
+        │   │   └── Sidebar.jsx                 # Role-based sidebar
+        │   └── resource/
+        │       └── ResourceCard.jsx            # Resource display card
+        ├── context/
+        │   └── AuthContext.jsx                 # Auth state + auto-logout
+        ├── hooks/
+        │   └── useAuth.js                      # Auth hook
+        ├── pages/
+        │   ├── admin/
+        │   │   ├── AdminDashboard.jsx          # Admin home
+        │   │   ├── ResourceManagement.jsx      # Resource CRUD
+        │   │   └── UserManagement.jsx          # User management (read-only + status toggle)
+        │   ├── auth/
+        │   │   ├── ForgotPassword.jsx          # Password reset flow
+        │   │   ├── Login.jsx                   # Login page
+        │   │   ├── PortalSelect.jsx            # Role portal selection
+        │   │   └── Register.jsx                # Registration page
+        │   ├── staff/
+        │   │   ├── MyStudents.jsx              # Assigned students list
+        │   │   ├── PendingApprovals.jsx        # Pending booking approvals
+        │   │   ├── StaffBookings.jsx           # Student bookings view
+        │   │   └── StaffDashboard.jsx          # Staff home
+        │   └── student/
+        │       ├── MyBookings.jsx              # Student's bookings
+        │       └── StudentDashboard.jsx        # Student home + booking form
+        ├── routes/
+        │   ├── AppRoutes.jsx                   # Route definitions
+        │   └── ProtectedRoute.jsx              # Auth guard
+        ├── styles/
+        │   └── global.css                      # Global styles
+        └── utils/
+            └── dateUtils.js                    # Date formatting helpers
+```
+
 ## Roles & Features
 
 ### Student
