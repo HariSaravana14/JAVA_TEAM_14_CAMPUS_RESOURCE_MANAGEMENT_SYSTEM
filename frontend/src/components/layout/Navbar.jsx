@@ -40,36 +40,37 @@ export default function Navbar() {
 
 	const isLowTime = timeLeft > 0 && timeLeft < 60000 // Less than 1 minute
 
+	const getRoleClass = () => {
+		switch (user?.role) {
+			case 'STUDENT': return 'navbar-role-student'
+			case 'STAFF': return 'navbar-role-staff'
+			case 'ADMIN': return 'navbar-role-admin'
+			default: return ''
+		}
+	}
+
 	return (
-		<div className="card" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-			<div style={{ fontWeight: 700 }}>Campus Resource Booking</div>
-			<div style={{ display: 'flex', gap: 12, alignItems: 'center' }}>
+		<nav className="navbar">
+			<div className="navbar-brand">
+				<div className="navbar-logo">CR</div>
+				<span>Campus Resource Booking</span>
+			</div>
+			<div className="navbar-actions">
 				{expiresAt && timeLeft > 0 && (
-					<div 
-						style={{ 
-							display: 'flex', 
-							alignItems: 'center', 
-							gap: 6,
-							padding: '4px 10px',
-							borderRadius: 6,
-							background: isLowTime ? '#fef2f2' : '#f3f4f6',
-							border: isLowTime ? '1px solid #fecaca' : '1px solid #e5e7eb',
-							fontSize: 13,
-							fontWeight: 500,
-							color: isLowTime ? '#dc2626' : '#374151'
-						}}
-					>
-						<span style={{ fontSize: 11, color: isLowTime ? '#dc2626' : '#6b7280' }}>Session:</span>
-						<span style={{ fontFamily: 'monospace' }}>{formatTime(timeLeft)}</span>
+					<div className={`session-timer ${isLowTime ? 'session-timer-warning' : ''}`}>
+						<span className="session-timer-label">Session:</span>
+						<span className="session-timer-value">{formatTime(timeLeft)}</span>
 					</div>
 				)}
-				<span className="badge">{user?.role}</span>
-				<span style={{ fontSize: 13, color: '#374151' }}>{user?.email}</span>
-				<button className="button secondary" onClick={onLogout} type="button">
+				<div className="navbar-user">
+					<span className={`navbar-role ${getRoleClass()}`}>{user?.role}</span>
+					<span className="navbar-user-email">{user?.email}</span>
+				</div>
+				<button className="navbar-logout" onClick={onLogout} type="button">
 					Logout
 				</button>
 			</div>
-		</div>
+		</nav>
 	)
 }
 

@@ -57,81 +57,58 @@ export default function AdminDashboard() {
 	const rejectedCount = bookings.filter(b => b.approvalStage === 'REJECTED').length
 
 	return (
-		<div className="container stack">
+		<div className="dashboard-layout">
 			<Navbar />
-			<div className="row" style={{ alignItems: 'flex-start' }}>
+			<div className="dashboard-container">
 				<Sidebar />
-				<div className="stack" style={{ flex: 1 }}>
-					<div className="card">
-						<div style={{ fontWeight: 800, fontSize: 18 }}>Admin Dashboard</div>
-						{policy ? (
-							<div style={{ marginTop: 10 }} className="row">
-								<span className="badge">Remaining bookings today: {policy.remainingBookingsToday}</span>
-								<span className="badge">Remaining hours today: {policy.remainingHoursToday}</span>
-								<span className="badge">Remaining bookings this month: {policy.remainingBookingsThisMonth}</span>
-								<span className="badge">Remaining hours this month: {policy.remainingHoursThisMonth}</span>
-							</div>
-						) : null}
-					</div>
-
-					{/* Booking Statistics */}
-					<div className="card">
-						<div style={{ fontWeight: 700, marginBottom: 12 }}>Booking Statistics</div>
-						<div className="row" style={{ gap: 16 }}>
-							<div style={{ 
-								flex: 1, 
-								padding: 16, 
-								background: '#f3f4f6', 
-								borderRadius: 8, 
-								textAlign: 'center' 
-							}}>
-								<div style={{ fontSize: 24, fontWeight: 700, color: '#111827' }}>
-									{bookings.length}
-								</div>
-								<div style={{ fontSize: 12, color: '#6b7280' }}>Total Bookings</div>
-							</div>
-							<div style={{ 
-								flex: 1, 
-								padding: 16, 
-								background: '#fef9c3', 
-								borderRadius: 8, 
-								textAlign: 'center' 
-							}}>
-								<div style={{ fontSize: 24, fontWeight: 700, color: '#854d0e' }}>
-									{pendingCount}
-								</div>
-								<div style={{ fontSize: 12, color: '#854d0e' }}>Pending Admin</div>
-							</div>
-							<div style={{ 
-								flex: 1, 
-								padding: 16, 
-								background: '#dcfce7', 
-								borderRadius: 8, 
-								textAlign: 'center' 
-							}}>
-								<div style={{ fontSize: 24, fontWeight: 700, color: '#166534' }}>
-									{approvedCount}
-								</div>
-								<div style={{ fontSize: 12, color: '#166534' }}>Approved</div>
-							</div>
-							<div style={{ 
-								flex: 1, 
-								padding: 16, 
-								background: '#fef2f2', 
-								borderRadius: 8, 
-								textAlign: 'center' 
-							}}>
-								<div style={{ fontSize: 24, fontWeight: 700, color: '#991b1b' }}>
-									{rejectedCount}
-								</div>
-								<div style={{ fontSize: 12, color: '#991b1b' }}>Rejected</div>
-							</div>
+				<main className="dashboard-main">
+					<div className="page-header">
+						<div className="page-header-content">
+							<h1 className="page-title">Admin Dashboard</h1>
+							<p className="page-subtitle">Manage all system bookings and approvals</p>
 						</div>
 					</div>
 
-					{error ? <div className="error">{error}</div> : null}
+					{policy && (
+						<div className="stats-grid stats-grid-2">
+							<div className="stat-card">
+								<span className="stat-value">{policy.remainingBookingsToday}</span>
+								<span className="stat-label">Bookings Today</span>
+							</div>
+							<div className="stat-card">
+								<span className="stat-value">{policy.remainingHoursToday}h</span>
+								<span className="stat-label">Hours Today</span>
+							</div>
+						</div>
+					)}
+
+					{/* Booking Statistics */}
+					<div className="stats-grid">
+						<div className="stat-card stat-card-default">
+							<span className="stat-value">{bookings.length}</span>
+							<span className="stat-label">Total Bookings</span>
+						</div>
+						<div className="stat-card stat-card-warning">
+							<span className="stat-value">{pendingCount}</span>
+							<span className="stat-label">Pending Admin</span>
+						</div>
+						<div className="stat-card stat-card-success">
+							<span className="stat-value">{approvedCount}</span>
+							<span className="stat-label">Approved</span>
+						</div>
+						<div className="stat-card stat-card-error">
+							<span className="stat-value">{rejectedCount}</span>
+							<span className="stat-label">Rejected</span>
+						</div>
+					</div>
+
+					{error && <div className="alert alert-error">{error}</div>}
+					
 					{loading ? (
-						<div className="card">Loading...</div>
+						<div className="card loading-card">
+							<div className="loading-spinner"></div>
+							<span>Loading...</span>
+						</div>
 					) : (
 						<BookingTable 
 							bookings={bookings} 
@@ -139,7 +116,7 @@ export default function AdminDashboard() {
 							onAdminReject={onAdminReject}
 						/>
 					)}
-				</div>
+				</main>
 			</div>
 		</div>
 	)

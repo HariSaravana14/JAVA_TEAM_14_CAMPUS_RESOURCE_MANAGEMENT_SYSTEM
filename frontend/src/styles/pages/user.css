@@ -1,0 +1,281 @@
+/* ============================================
+   User Management Styles
+   ============================================ */
+
+/* User Table */
+.user-table-row {
+  transition: all var(--transition-fast);
+}
+
+.user-table-row:hover {
+  background: var(--gray-50);
+}
+
+.user-info {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-3);
+}
+
+.user-avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: var(--radius-full);
+  background: linear-gradient(135deg, var(--primary-400) 0%, var(--primary-600) 100%);
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-semibold);
+  flex-shrink: 0;
+}
+
+.user-avatar-student {
+  background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
+}
+
+.user-avatar-staff {
+  background: linear-gradient(135deg, #10b981 0%, #047857 100%);
+}
+
+.user-avatar-admin {
+  background: linear-gradient(135deg, #f87171 0%, #dc2626 100%);
+}
+
+.user-details {
+  display: flex;
+  flex-direction: column;
+}
+
+.user-name {
+  font-weight: var(--font-medium);
+  color: var(--text-primary);
+}
+
+.user-email {
+  font-size: var(--font-size-xs);
+  color: var(--text-muted);
+}
+
+/* User Status */
+.user-status {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--spacing-2);
+}
+
+.user-status-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: var(--radius-full);
+}
+
+.user-status-active .user-status-dot {
+  background: var(--success-500);
+}
+
+.user-status-inactive .user-status-dot {
+  background: var(--gray-400);
+}
+
+/* User Actions */
+.user-actions {
+  display: flex;
+  gap: var(--spacing-2);
+  justify-content: flex-end;
+}
+
+/* User Card (for card view) */
+.user-card {
+  background: var(--bg-primary);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-xl);
+  padding: var(--spacing-5);
+  transition: all var(--transition-base);
+}
+
+.user-card:hover {
+  box-shadow: var(--shadow-md);
+  transform: translateY(-2px);
+}
+
+.user-card-header {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-3);
+  margin-bottom: var(--spacing-4);
+}
+
+.user-card-avatar {
+  width: 48px;
+  height: 48px;
+  border-radius: var(--radius-full);
+  background: linear-gradient(135deg, var(--primary-400) 0%, var(--primary-600) 100%);
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: var(--font-size-lg);
+  font-weight: var(--font-semibold);
+}
+
+.user-card-info {
+  flex: 1;
+}
+
+.user-card-name {
+  font-weight: var(--font-semibold);
+  color: var(--text-primary);
+  margin-bottom: var(--spacing-1);
+}
+
+.user-card-email {
+  font-size: var(--font-size-sm);
+  color: var(--text-secondary);
+}
+
+.user-card-body {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-2);
+  padding: var(--spacing-4) 0;
+  border-top: 1px solid var(--border-color-light);
+  border-bottom: 1px solid var(--border-color-light);
+}
+
+.user-card-detail {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: var(--font-size-sm);
+}
+
+.user-card-detail-label {
+  color: var(--text-muted);
+}
+
+.user-card-detail-value {
+  color: var(--text-primary);
+  font-weight: var(--font-medium);
+}
+
+.user-card-footer {
+  display: flex;
+  gap: var(--spacing-2);
+  margin-top: var(--spacing-4);
+  justify-content: flex-end;
+}
+
+/* Student Stats (for staff viewing students) */
+.student-stats {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--spacing-3);
+  margin-bottom: var(--spacing-4);
+}
+
+.student-stat {
+  text-align: center;
+  padding: var(--spacing-3);
+  background: var(--gray-50);
+  border-radius: var(--radius-lg);
+}
+
+.student-stat-value {
+  font-size: var(--font-size-xl);
+  font-weight: var(--font-bold);
+  color: var(--text-primary);
+}
+
+.student-stat-label {
+  font-size: var(--font-size-xs);
+  color: var(--text-muted);
+  margin-top: var(--spacing-1);
+}
+
+/* Advisor Badge */
+.advisor-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--spacing-2);
+  padding: var(--spacing-2) var(--spacing-3);
+  background: var(--info-50);
+  border: 1px solid var(--info-100);
+  border-radius: var(--radius-lg);
+  font-size: var(--font-size-sm);
+}
+
+.advisor-badge-icon {
+  width: 16px;
+  height: 16px;
+  color: var(--info-500);
+}
+
+.advisor-badge-name {
+  color: var(--info-700);
+  font-weight: var(--font-medium);
+}
+
+/* User Grid */
+.user-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: var(--spacing-4);
+}
+
+/* Role Badge Variants */
+.role-badge-student {
+  background: var(--primary-50);
+  color: var(--primary-700);
+  border-color: var(--primary-100);
+}
+
+.role-badge-staff {
+  background: #ecfdf5;
+  color: #047857;
+  border-color: #a7f3d0;
+}
+
+.role-badge-admin {
+  background: var(--error-50);
+  color: var(--error-700);
+  border-color: var(--error-100);
+}
+
+/* Status Toggle Button */
+.status-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--spacing-2);
+  padding: var(--spacing-2) var(--spacing-3);
+  font-size: var(--font-size-sm);
+  border-radius: var(--radius-lg);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  border: 1px solid transparent;
+}
+
+.status-toggle-active {
+  background: var(--success-50);
+  color: var(--success-700);
+  border-color: var(--success-200);
+}
+
+.status-toggle-active:hover {
+  background: var(--error-50);
+  color: var(--error-700);
+  border-color: var(--error-200);
+}
+
+.status-toggle-inactive {
+  background: var(--gray-100);
+  color: var(--text-secondary);
+  border-color: var(--gray-200);
+}
+
+.status-toggle-inactive:hover {
+  background: var(--success-50);
+  color: var(--success-700);
+  border-color: var(--success-200);
+}

@@ -72,75 +72,68 @@ export default function ForgotPassword() {
 	}
 
 	return (
-		<div className="container" style={{ maxWidth: 520 }}>
-			<div className="card stack">
-				<div style={{ fontWeight: 800, fontSize: 20 }}>Forgot Password</div>
+		<div className="auth-container">
+			<div className="auth-card">
+				<h1 className="auth-title">Forgot Password</h1>
 
 				{/* Progress indicator */}
-				<div style={{ display: 'flex', gap: 8, justifyContent: 'center', marginBottom: 8 }}>
+				<div className="auth-progress">
 					{[1, 2, 3].map((s) => (
 						<div
 							key={s}
-							style={{
-								width: 32,
-								height: 4,
-								borderRadius: 2,
-								background: step >= s ? '#2563eb' : '#e5e7eb',
-								transition: 'background 0.2s',
-							}}
+							className={`auth-progress-step ${step >= s ? 'auth-progress-step-active' : ''}`}
 						/>
 					))}
 				</div>
 
 				{step === STEPS.PHONE && (
-					<form className="stack" onSubmit={handleSendOtp}>
-						<div style={{ fontSize: 14, color: '#6b7280', marginBottom: 4 }}>
+					<form className="auth-form" onSubmit={handleSendOtp}>
+						<p className="auth-description">
 							Enter your registered mobile number to receive an OTP
-						</div>
-						<label className="stack" style={{ gap: 6 }}>
-							<div style={{ fontSize: 13, color: '#374151' }}>Mobile Number</div>
+						</p>
+						<div className="auth-form-group">
+							<label className="auth-label">Mobile Number</label>
 							<input
-								className="input"
+								className="auth-input"
 								type="tel"
 								value={phone}
 								onChange={(e) => setPhone(e.target.value)}
 								placeholder="Enter your phone number"
 								required
 							/>
-						</label>
-						{error && <div className="error">{error}</div>}
-						<button className="button" type="submit" disabled={loading}>
+						</div>
+						{error && <div className="auth-error">{error}</div>}
+						<button className="auth-button auth-button-student" type="submit" disabled={loading}>
 							{loading ? 'Sending OTP...' : 'Send OTP'}
 						</button>
 					</form>
 				)}
 
 				{step === STEPS.OTP && (
-					<form className="stack" onSubmit={handleVerifyOtp}>
-						{message && <div style={{ fontSize: 13, color: '#059669', background: '#ecfdf5', padding: '8px 12px', borderRadius: 6 }}>{message}</div>}
-						<div style={{ fontSize: 14, color: '#6b7280', marginBottom: 4 }}>
+					<form className="auth-form" onSubmit={handleVerifyOtp}>
+						{message && <div className="auth-success">{message}</div>}
+						<p className="auth-description">
 							Enter the 6-digit OTP sent to <strong>{phone}</strong>
-						</div>
-						<label className="stack" style={{ gap: 6 }}>
-							<div style={{ fontSize: 13, color: '#374151' }}>OTP Code</div>
+						</p>
+						<div className="auth-form-group">
+							<label className="auth-label">OTP Code</label>
 							<input
-								className="input"
+								className="auth-input auth-input-otp"
 								type="text"
 								value={otp}
 								onChange={(e) => setOtp(e.target.value.replace(/\D/g, '').slice(0, 6))}
-								placeholder="Enter 6-digit OTP"
+								placeholder="000000"
 								maxLength={6}
 								required
-								style={{ letterSpacing: 8, textAlign: 'center', fontSize: 20, fontWeight: 600 }}
 							/>
-						</label>
-						{error && <div className="error">{error}</div>}
-						<button className="button" type="submit" disabled={loading || otp.length !== 6}>
+						</div>
+						{error && <div className="auth-error">{error}</div>}
+						<button className="auth-button auth-button-student" type="submit" disabled={loading || otp.length !== 6}>
 							{loading ? 'Verifying...' : 'Verify OTP'}
 						</button>
 						<button
 							type="button"
-							style={{ background: 'none', border: 'none', color: '#2563eb', fontSize: 13, cursor: 'pointer', textDecoration: 'underline' }}
+							className="auth-link-button"
 							onClick={() => { setStep(STEPS.PHONE); setError(''); setMessage(''); setOtp('') }}
 						>
 							Resend OTP
@@ -149,12 +142,12 @@ export default function ForgotPassword() {
 				)}
 
 				{step === STEPS.NEW_PASSWORD && (
-					<form className="stack" onSubmit={handleResetPassword}>
-						{message && <div style={{ fontSize: 13, color: '#059669', background: '#ecfdf5', padding: '8px 12px', borderRadius: 6 }}>{message}</div>}
-						<label className="stack" style={{ gap: 6 }}>
-							<div style={{ fontSize: 13, color: '#374151' }}>New Password</div>
+					<form className="auth-form" onSubmit={handleResetPassword}>
+						{message && <div className="auth-success">{message}</div>}
+						<div className="auth-form-group">
+							<label className="auth-label">New Password</label>
 							<input
-								className="input"
+								className="auth-input"
 								type="password"
 								value={newPassword}
 								onChange={(e) => setNewPassword(e.target.value)}
@@ -162,11 +155,11 @@ export default function ForgotPassword() {
 								minLength={8}
 								required
 							/>
-						</label>
-						<label className="stack" style={{ gap: 6 }}>
-							<div style={{ fontSize: 13, color: '#374151' }}>Confirm Password</div>
+						</div>
+						<div className="auth-form-group">
+							<label className="auth-label">Confirm Password</label>
 							<input
-								className="input"
+								className="auth-input"
 								type="password"
 								value={confirmPassword}
 								onChange={(e) => setConfirmPassword(e.target.value)}
@@ -174,30 +167,32 @@ export default function ForgotPassword() {
 								minLength={8}
 								required
 							/>
-						</label>
-						{error && <div className="error">{error}</div>}
-						<button className="button" type="submit" disabled={loading}>
+						</div>
+						{error && <div className="auth-error">{error}</div>}
+						<button className="auth-button auth-button-student" type="submit" disabled={loading}>
 							{loading ? 'Resetting...' : 'Reset Password'}
 						</button>
 					</form>
 				)}
 
 				{step === STEPS.SUCCESS && (
-					<div className="stack" style={{ textAlign: 'center' }}>
-						<div style={{ fontSize: 40 }}>&#10003;</div>
-						<div style={{ fontSize: 16, fontWeight: 600, color: '#059669' }}>Password Reset Successful!</div>
-						<div style={{ fontSize: 14, color: '#6b7280' }}>
+					<div className="auth-success-container">
+						<div className="auth-success-icon">✓</div>
+						<h2 className="auth-success-title">Password Reset Successful!</h2>
+						<p className="auth-success-message">
 							Your password has been changed. You can now login with your new password.
-						</div>
-						<button className="button" onClick={() => navigate('/login', { replace: true })}>
+						</p>
+						<button className="auth-button auth-button-student" onClick={() => navigate('/login', { replace: true })}>
 							Go to Login
 						</button>
 					</div>
 				)}
 
 				{step !== STEPS.SUCCESS && (
-					<div style={{ fontSize: 13, color: '#374151' }}>
-						Remember your password? <Link to="/login" style={{ textDecoration: 'underline' }}>Login</Link>
+					<div className="auth-footer">
+						<div className="auth-footer-text">
+							Remember your password? <Link to="/login" className="auth-footer-link">Login</Link>
+						</div>
 					</div>
 				)}
 			</div>

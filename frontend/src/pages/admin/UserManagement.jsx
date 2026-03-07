@@ -46,25 +46,6 @@ export default function UserManagement() {
 		}
 	}
 
-	const getRoleBadgeStyle = (role) => {
-		switch (role) {
-			case 'ADMIN':
-				return { background: '#fef3c7', color: '#92400e' }
-			case 'STAFF':
-				return { background: '#dbeafe', color: '#1e40af' }
-			case 'STUDENT':
-				return { background: '#f3e8ff', color: '#7c3aed' }
-			default:
-				return { background: '#f3f4f6', color: '#374151' }
-		}
-	}
-
-	const getStatusBadgeStyle = (status) => {
-		return status === 'ACTIVE' 
-			? { background: '#dcfce7', color: '#166534' }
-			: { background: '#fef2f2', color: '#991b1b' }
-	}
-
 	// Calculate stats
 	const stats = {
 		total: items.length,
@@ -76,125 +57,118 @@ export default function UserManagement() {
 	}
 
 	return (
-		<div className="container stack">
+		<div className="dashboard-layout">
 			<Navbar />
-			<div className="row" style={{ alignItems: 'flex-start' }}>
+			<div className="dashboard-container">
 				<Sidebar />
-				<div className="stack" style={{ flex: 1 }}>
-					<div className="card">
-						<div style={{ fontWeight: 800, fontSize: 18 }}>User Management</div>
-						<div style={{ marginTop: 8, fontSize: 13, color: '#6b7280' }}>
-							View all users and manage their account status
+				<main className="dashboard-main">
+					<div className="page-header">
+						<div className="page-header-content">
+							<h1 className="page-title">User Management</h1>
+							<p className="page-subtitle">View all users and manage their account status</p>
 						</div>
 					</div>
 
 					{/* User Statistics */}
-					<div className="card">
-						<div style={{ fontWeight: 700, marginBottom: 12 }}>User Overview</div>
-						<div className="row" style={{ gap: 12, flexWrap: 'wrap' }}>
-							<div style={{ flex: '1 1 100px', padding: 16, background: '#f3f4f6', borderRadius: 8, textAlign: 'center' }}>
-								<div style={{ fontSize: 24, fontWeight: 700 }}>{stats.total}</div>
-								<div style={{ fontSize: 11, color: '#6b7280' }}>Total</div>
-							</div>
-							<div style={{ flex: '1 1 100px', padding: 16, background: '#dcfce7', borderRadius: 8, textAlign: 'center' }}>
-								<div style={{ fontSize: 24, fontWeight: 700, color: '#166534' }}>{stats.active}</div>
-								<div style={{ fontSize: 11, color: '#166534' }}>Active</div>
-							</div>
-							<div style={{ flex: '1 1 100px', padding: 16, background: '#fef2f2', borderRadius: 8, textAlign: 'center' }}>
-								<div style={{ fontSize: 24, fontWeight: 700, color: '#991b1b' }}>{stats.inactive}</div>
-								<div style={{ fontSize: 11, color: '#991b1b' }}>Inactive</div>
-							</div>
-							<div style={{ flex: '1 1 100px', padding: 16, background: '#f3e8ff', borderRadius: 8, textAlign: 'center' }}>
-								<div style={{ fontSize: 24, fontWeight: 700, color: '#7c3aed' }}>{stats.students}</div>
-								<div style={{ fontSize: 11, color: '#7c3aed' }}>Students</div>
-							</div>
-							<div style={{ flex: '1 1 100px', padding: 16, background: '#dbeafe', borderRadius: 8, textAlign: 'center' }}>
-								<div style={{ fontSize: 24, fontWeight: 700, color: '#1e40af' }}>{stats.staff}</div>
-								<div style={{ fontSize: 11, color: '#1e40af' }}>Staff</div>
-							</div>
+					<div className="stats-grid stats-grid-5">
+						<div className="stat-card stat-card-default">
+							<div className="stat-number">{stats.total}</div>
+							<div className="stat-label">Total Users</div>
+						</div>
+						<div className="stat-card stat-card-success">
+							<div className="stat-number">{stats.active}</div>
+							<div className="stat-label">Active</div>
+						</div>
+						<div className="stat-card stat-card-danger">
+							<div className="stat-number">{stats.inactive}</div>
+							<div className="stat-label">Inactive</div>
+						</div>
+						<div className="stat-card stat-card-purple">
+							<div className="stat-number">{stats.students}</div>
+							<div className="stat-label">Students</div>
+						</div>
+						<div className="stat-card stat-card-info">
+							<div className="stat-number">{stats.staff}</div>
+							<div className="stat-label">Staff</div>
 						</div>
 					</div>
 
-					{error ? <div className="error">{error}</div> : null}
+					{error && <div className="alert alert-error">{error}</div>}
+					
 					{loading ? (
-						<div className="card">Loading...</div>
+						<div className="card loading-card">
+							<div className="loading-spinner"></div>
+							<span>Loading...</span>
+						</div>
 					) : (
 						<div className="card">
-							<div style={{ fontWeight: 700, marginBottom: 12 }}>All Users ({items.length})</div>
-							<table className="table">
-								<thead>
-									<tr>
-										<th>Name</th>
-										<th>Email</th>
-										<th>Phone</th>
-										<th>Role</th>
-										<th>Status</th>
-										<th>Action</th>
-									</tr>
-								</thead>
-								<tbody>
-									{items.map((u) => (
-										<tr key={u.id}>
-											<td style={{ fontWeight: 500 }}>{u.name}</td>
-											<td style={{ fontSize: 13, color: '#6b7280' }}>{u.email}</td>
-											<td style={{ fontSize: 13, color: '#6b7280' }}>{u.phone || '-'}</td>
-											<td>
-												<span className="badge" style={getRoleBadgeStyle(u.role)}>
-													{u.role}
-												</span>
-											</td>
-											<td>
-												<span className="badge" style={getStatusBadgeStyle(u.status)}>
-													{u.status}
-												</span>
-											</td>
-											<td>
-												{u.status === 'ACTIVE' ? (
-													<button
-														className="button"
-														type="button"
-														style={{ 
-															background: '#dc2626', 
-															padding: '6px 14px', 
-															fontSize: 12,
-															opacity: updating === u.id ? 0.6 : 1,
-															cursor: updating === u.id ? 'wait' : 'pointer'
-														}}
-														onClick={() => onToggleStatus(u)}
-														disabled={updating === u.id}
-													>
-														{updating === u.id ? 'Updating...' : 'Deactivate'}
-													</button>
-												) : (
-													<button
-														className="button"
-														type="button"
-														style={{ 
-															background: '#16a34a', 
-															padding: '6px 14px', 
-															fontSize: 12,
-															opacity: updating === u.id ? 0.6 : 1,
-															cursor: updating === u.id ? 'wait' : 'pointer'
-														}}
-														onClick={() => onToggleStatus(u)}
-														disabled={updating === u.id}
-													>
-														{updating === u.id ? 'Updating...' : 'Activate'}
-													</button>
-												)}
-											</td>
-										</tr>
-									))}
-									{items.length === 0 ? (
+							<div className="card-header">
+								<h2 className="card-title">All Users ({items.length})</h2>
+							</div>
+							<div className="table-container">
+								<table className="table">
+									<thead>
 										<tr>
-											<td colSpan={6} style={{ padding: 14, color: '#6b7280' }}>No users.</td>
+											<th>Name</th>
+											<th>Email</th>
+											<th>Phone</th>
+											<th>Role</th>
+											<th>Status</th>
+											<th>Action</th>
 										</tr>
-									) : null}
-								</tbody>
-							</table>
+									</thead>
+									<tbody>
+										{items.map((u) => (
+											<tr key={u.id}>
+												<td className="table-bold">{u.name}</td>
+												<td className="table-muted">{u.email}</td>
+												<td className="table-muted">{u.phone || '-'}</td>
+												<td>
+													<span className={`badge badge-${u.role.toLowerCase()}`}>
+														{u.role}
+													</span>
+												</td>
+												<td>
+													<span className={`badge badge-${u.status.toLowerCase()}`}>
+														{u.status}
+													</span>
+												</td>
+												<td>
+													{u.status === 'ACTIVE' ? (
+														<button
+															className="btn btn-danger btn-sm"
+															onClick={() => onToggleStatus(u)}
+															disabled={updating === u.id}
+														>
+															{updating === u.id ? 'Updating...' : 'Deactivate'}
+														</button>
+													) : (
+														<button
+															className="btn btn-success btn-sm"
+															onClick={() => onToggleStatus(u)}
+															disabled={updating === u.id}
+														>
+															{updating === u.id ? 'Updating...' : 'Activate'}
+														</button>
+													)}
+												</td>
+											</tr>
+										))}
+										{items.length === 0 && (
+											<tr>
+												<td colSpan={6}>
+													<div className="empty-state">
+														<p>No users found.</p>
+													</div>
+												</td>
+											</tr>
+										)}
+									</tbody>
+								</table>
+							</div>
 						</div>
 					)}
-				</div>
+				</main>
 			</div>
 		</div>
 	)

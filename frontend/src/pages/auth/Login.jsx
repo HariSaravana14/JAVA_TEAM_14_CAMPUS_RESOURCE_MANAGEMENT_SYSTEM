@@ -4,9 +4,9 @@ import { extractErrorMessage } from '../../api/axiosInstance'
 import { useAuth } from '../../hooks/useAuth'
 
 const ROLE_CONFIG = {
-	student: { role: 'STUDENT', title: 'Student Login', color: '#2563eb', redirect: '/student' },
-	staff: { role: 'STAFF', title: 'Staff Login', color: '#059669', redirect: '/staff' },
-	admin: { role: 'ADMIN', title: 'Admin Login', color: '#dc2626', redirect: '/admin' },
+	student: { role: 'STUDENT', title: 'Student Login', className: 'student', redirect: '/student' },
+	staff: { role: 'STAFF', title: 'Staff Login', className: 'staff', redirect: '/staff' },
+	admin: { role: 'ADMIN', title: 'Admin Login', className: 'admin', redirect: '/admin' },
 }
 
 export default function Login() {
@@ -35,53 +35,56 @@ export default function Login() {
 	}
 
 	return (
-		<div className="container" style={{ maxWidth: 520 }}>
-			<div className="card stack">
-				<div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
-					<div style={{ 
-						width: 8, 
-						height: 32, 
-						backgroundColor: config.color, 
-						borderRadius: 4 
-					}} />
-					<div style={{ fontWeight: 800, fontSize: 20 }}>{config.title}</div>
+		<div className="auth-container">
+			<div className="auth-card">
+				<div className="auth-role-indicator">
+					<div className={`auth-role-bar auth-role-bar-${config.className}`} />
+					<h1 className="auth-role-title">{config.title}</h1>
 				</div>
 
-				<form className="stack" onSubmit={onSubmit}>
-					<label className="stack" style={{ gap: 6 }}>
-						<div style={{ fontSize: 13, color: '#374151' }}>Email</div>
-						<input className="input" type="email" value={email} onChange={(e) => setEmail(e.target.value)} required />
-					</label>
+				<form className="auth-form" onSubmit={onSubmit}>
+					<div className="auth-form-group">
+						<label className="auth-label">Email</label>
+						<input 
+							className="auth-input" 
+							type="email" 
+							value={email} 
+							onChange={(e) => setEmail(e.target.value)} 
+							placeholder="Enter your email"
+							required 
+						/>
+					</div>
 
-					<label className="stack" style={{ gap: 6 }}>
-						<div style={{ fontSize: 13, color: '#374151' }}>Password</div>
-						<input className="input" type="password" value={password} onChange={(e) => setPassword(e.target.value)} required />
-					</label>
+					<div className="auth-form-group">
+						<label className="auth-label">Password</label>
+						<input 
+							className="auth-input" 
+							type="password" 
+							value={password} 
+							onChange={(e) => setPassword(e.target.value)} 
+							placeholder="Enter your password"
+							required 
+						/>
+					</div>
 
-					{error ? <div className="error">{error}</div> : null}
+					{error && <div className="auth-error">{error}</div>}
 
-					<button className="button" type="submit" disabled={loading} style={{ backgroundColor: config.color }}>
+					<button 
+						className={`auth-button auth-button-${config.className}`} 
+						type="submit" 
+						disabled={loading}
+					>
 						{loading ? 'Signing in...' : 'Login'}
 					</button>
 				</form>
 
-				<div style={{ position: 'relative', textAlign: 'center', margin: '8px 0' }}>
-					<div style={{ borderTop: '1px solid #e5e7eb', position: 'absolute', top: '50%', left: 0, right: 0 }} />
-					<span style={{ backgroundColor: '#fff', padding: '0 12px', position: 'relative', fontSize: 12, color: '#9ca3af' }}>or</span>
+				<div className="divider-text">
+					<span>or</span>
 				</div>
 
 				<button 
 					type="button" 
-					className="button" 
-					style={{ 
-						backgroundColor: '#fff', 
-						color: '#374151', 
-						border: '1px solid #e5e7eb',
-						display: 'flex',
-						alignItems: 'center',
-						justifyContent: 'center',
-						gap: 10
-					}}
+					className="auth-social-button"
 					onClick={() => alert('Google Sign-In requires OAuth setup. Please configure Google Cloud Console credentials.')}
 				>
 					<svg width="18" height="18" viewBox="0 0 24 24">
@@ -93,16 +96,20 @@ export default function Login() {
 					Sign in with Google
 				</button>
 
-				<div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 13, color: '#374151' }}>
-					{portal !== 'admin' && (
-						<span>No account? <Link to={`/register/${portal || 'student'}`} style={{ textDecoration: 'underline' }}>Register</Link></span>
-					)}
-					{portal === 'admin' && <span />}
-					<Link to="/forgot-password" style={{ textDecoration: 'underline', color: '#2563eb' }}>Forgot Password?</Link>
-				</div>
-
-				<div style={{ textAlign: 'center', marginTop: 8 }}>
-					<Link to="/" style={{ fontSize: 13, color: '#6b7280', textDecoration: 'underline' }}>← Back to portal selection</Link>
+				<div className="auth-footer">
+					<div className="auth-footer-text">
+						{portal !== 'admin' && (
+							<>No account? <Link to={`/register/${portal || 'student'}`} className="auth-footer-link">Register</Link></>
+						)}
+						{portal !== 'admin' && ' | '}
+						<Link to="/forgot-password" className="auth-footer-link">Forgot Password?</Link>
+					</div>
+					<Link to="/" className="auth-back-link">
+						<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+							<path d="M19 12H5M12 19l-7-7 7-7"/>
+						</svg>
+						Back to portal selection
+					</Link>
 				</div>
 			</div>
 		</div>

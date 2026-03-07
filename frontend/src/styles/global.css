@@ -1,86 +1,28 @@
-:root {
-  font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
-  line-height: 1.4;
-}
+/* ============================================
+   Campus Resource Booking - Main Stylesheet
+   Professional Theme: White + Blue Accent
+   ============================================ */
 
-* { box-sizing: border-box; }
+/* Design Tokens & Variables */
+@import './variables.css';
 
-body {
-  margin: 0;
-  background: #f6f7fb;
-  color: #111827;
-}
+/* Base Styles & Reset */
+@import './base.css';
 
-a { color: inherit; text-decoration: none; }
+/* Component Styles */
+@import './components/layout.css';
+@import './components/card.css';
+@import './components/button.css';
+@import './components/form.css';
+@import './components/table.css';
+@import './components/badge.css';
+@import './components/navbar.css';
+@import './components/sidebar.css';
+@import './components/alert.css';
 
-.container {
-  max-width: 1100px;
-  margin: 0 auto;
-  padding: 16px;
-}
-
-.card {
-  background: white;
-  border: 1px solid #e5e7eb;
-  border-radius: 12px;
-  padding: 16px;
-}
-
-.row {
-  display: flex;
-  gap: 12px;
-  flex-wrap: wrap;
-}
-
-.stack {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-}
-
-.input {
-  width: 100%;
-  padding: 10px 12px;
-  border: 1px solid #d1d5db;
-  border-radius: 10px;
-  background: white;
-}
-
-.button {
-  border: 1px solid #111827;
-  background: #111827;
-  color: white;
-  padding: 10px 12px;
-  border-radius: 10px;
-  cursor: pointer;
-}
-
-.button.secondary {
-  background: white;
-  color: #111827;
-}
-
-.table {
-  width: 100%;
-  border-collapse: collapse;
-}
-
-.table th, .table td {
-  text-align: left;
-  padding: 10px;
-  border-bottom: 1px solid #e5e7eb;
-}
-
-.badge {
-  display: inline-block;
-  padding: 4px 10px;
-  border-radius: 999px;
-  border: 1px solid #e5e7eb;
-  background: #f9fafb;
-  font-size: 12px;
-}
-
-.error {
-  color: #b91c1c;
-  font-size: 13px;
-}
+/* Page Styles */
+@import './pages/auth.css';
+@import './pages/dashboard.css';
+@import './pages/booking.css';
+@import './pages/resource.css';
+@import './pages/user.css';

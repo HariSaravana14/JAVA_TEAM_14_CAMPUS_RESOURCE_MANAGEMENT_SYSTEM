@@ -5,7 +5,7 @@ const portals = [
 		id: 'student',
 		title: 'Student Portal',
 		description: 'Access your bookings, view resources, and manage your reservations',
-		color: '#2563eb',
+		className: 'student',
 		icon: (
 			<svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
 				<path d="M22 10v6M2 10l10-5 10 5-10 5z"/>
@@ -17,7 +17,7 @@ const portals = [
 		id: 'staff',
 		title: 'Staff Portal',
 		description: 'Manage student approvals and oversee resource bookings',
-		color: '#059669',
+		className: 'staff',
 		icon: (
 			<svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
 				<path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/>
@@ -31,7 +31,7 @@ const portals = [
 		id: 'admin',
 		title: 'Admin Portal',
 		description: 'System administration, user management, and resource configuration',
-		color: '#dc2626',
+		className: 'admin',
 		icon: (
 			<svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
 				<circle cx="12" cy="12" r="3"/>
@@ -43,75 +43,32 @@ const portals = [
 
 export default function PortalSelect() {
 	return (
-		<div className="container" style={{ maxWidth: 900 }}>
-			<div className="stack" style={{ alignItems: 'center', gap: 32 }}>
-				<div style={{ textAlign: 'center' }}>
-					<h1 style={{ fontSize: 28, fontWeight: 800, margin: 0, color: '#111827' }}>
-						Campus Resource Booking
-					</h1>
-					<p style={{ fontSize: 15, color: '#6b7280', marginTop: 8 }}>
-						Select your portal to continue
-					</p>
-				</div>
+		<div className="portal-container">
+			<div className="portal-header">
+				<h1 className="portal-title">Campus Resource Booking</h1>
+				<p className="portal-subtitle">Select your portal to continue</p>
+			</div>
 
-				<div style={{ 
-					display: 'grid', 
-					gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))', 
-					gap: 20, 
-					width: '100%' 
-				}}>
-					{portals.map((portal) => (
-						<Link
-							key={portal.id}
-							to={`/login/${portal.id}`}
-							style={{
-								textDecoration: 'none',
-								color: 'inherit',
-							}}
-						>
-							<div
-								className="card"
-								style={{
-									cursor: 'pointer',
-									transition: 'all 0.2s ease',
-									border: `2px solid transparent`,
-									height: '100%',
-								}}
-								onMouseEnter={(e) => {
-									e.currentTarget.style.borderColor = portal.color
-									e.currentTarget.style.transform = 'translateY(-4px)'
-									e.currentTarget.style.boxShadow = '0 10px 25px -5px rgba(0,0,0,0.1)'
-								}}
-								onMouseLeave={(e) => {
-									e.currentTarget.style.borderColor = 'transparent'
-									e.currentTarget.style.transform = 'translateY(0)'
-									e.currentTarget.style.boxShadow = ''
-								}}
-							>
-								<div style={{ color: portal.color, marginBottom: 12 }}>
-									{portal.icon}
-								</div>
-								<div style={{ fontWeight: 700, fontSize: 18, marginBottom: 8 }}>
-									{portal.title}
-								</div>
-								<div style={{ fontSize: 13, color: '#6b7280', lineHeight: 1.5 }}>
-									{portal.description}
-								</div>
-								<div style={{ 
-									marginTop: 16, 
-									fontSize: 13, 
-									fontWeight: 600, 
-									color: portal.color,
-									display: 'flex',
-									alignItems: 'center',
-									gap: 4
-								}}>
-									Login →
-								</div>
-							</div>
-						</Link>
-					))}
-				</div>
+			<div className="portal-grid">
+				{portals.map((portal) => (
+					<Link
+						key={portal.id}
+						to={`/login/${portal.id}`}
+						className={`portal-card portal-card-${portal.className}`}
+					>
+						<div className={`portal-icon portal-icon-${portal.className}`}>
+							{portal.icon}
+						</div>
+						<h3 className="portal-card-title">{portal.title}</h3>
+						<p className="portal-card-description">{portal.description}</p>
+						<span className="portal-card-arrow">
+							Login 
+							<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+								<path d="M5 12h14M12 5l7 7-7 7"/>
+							</svg>
+						</span>
+					</Link>
+				))}
 			</div>
 		</div>
 	)

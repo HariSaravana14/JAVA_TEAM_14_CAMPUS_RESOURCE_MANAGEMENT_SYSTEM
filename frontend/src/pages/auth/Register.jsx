@@ -5,8 +5,8 @@ import { useAuth } from '../../hooks/useAuth'
 import { getAdvisors } from '../../api/authApi'
 
 const ROLE_CONFIG = {
-	student: { role: 'STUDENT', title: 'Student Registration', color: '#2563eb', redirect: '/student' },
-	staff: { role: 'STAFF', title: 'Staff Registration', color: '#059669', redirect: '/staff' },
+	student: { role: 'STUDENT', title: 'Student Registration', className: 'student', redirect: '/student' },
+	staff: { role: 'STAFF', title: 'Staff Registration', className: 'staff', redirect: '/staff' },
 }
 
 export default function Register() {
@@ -61,44 +61,67 @@ export default function Register() {
 	}
 
 	return (
-		<div className="container" style={{ maxWidth: 520 }}>
-			<div className="card stack">
-				<div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
-					<div style={{ 
-						width: 8, 
-						height: 32, 
-						backgroundColor: config.color, 
-						borderRadius: 4 
-					}} />
-					<div style={{ fontWeight: 800, fontSize: 20 }}>{config.title}</div>
+		<div className="auth-container">
+			<div className="auth-card">
+				<div className="auth-role-indicator">
+					<div className={`auth-role-bar auth-role-bar-${config.className}`} />
+					<h1 className="auth-role-title">{config.title}</h1>
 				</div>
 
-				<form className="stack" onSubmit={onSubmit}>
-					<label className="stack" style={{ gap: 6 }}>
-						<div style={{ fontSize: 13, color: '#374151' }}>Name</div>
-						<input className="input" value={name} onChange={(e) => setName(e.target.value)} required />
-					</label>
+				<form className="auth-form" onSubmit={onSubmit}>
+					<div className="auth-form-group">
+						<label className="auth-label">Name</label>
+						<input 
+							className="auth-input" 
+							value={name} 
+							onChange={(e) => setName(e.target.value)} 
+							placeholder="Enter your full name"
+							required 
+						/>
+					</div>
 
-					<label className="stack" style={{ gap: 6 }}>
-						<div style={{ fontSize: 13, color: '#374151' }}>Email</div>
-						<input className="input" type="email" value={email} onChange={(e) => setEmail(e.target.value)} required />
-					</label>
+					<div className="auth-form-group">
+						<label className="auth-label">Email</label>
+						<input 
+							className="auth-input" 
+							type="email" 
+							value={email} 
+							onChange={(e) => setEmail(e.target.value)} 
+							placeholder="Enter your email"
+							required 
+						/>
+					</div>
 
-					<label className="stack" style={{ gap: 6 }}>
-						<div style={{ fontSize: 13, color: '#374151' }}>Phone</div>
-						<input className="input" value={phone} onChange={(e) => setPhone(e.target.value)} placeholder="Required for password recovery" />
-					</label>
+					<div className="auth-form-group">
+						<label className="auth-label">Phone</label>
+						<input 
+							className="auth-input" 
+							value={phone} 
+							onChange={(e) => setPhone(e.target.value)} 
+							placeholder="Required for password recovery" 
+						/>
+					</div>
 
-					<label className="stack" style={{ gap: 6 }}>
-						<div style={{ fontSize: 13, color: '#374151' }}>Password</div>
-						<input className="input" type="password" value={password} onChange={(e) => setPassword(e.target.value)} required minLength={8} />
-					</label>
+					<div className="auth-form-group">
+						<label className="auth-label">Password</label>
+						<input 
+							className="auth-input" 
+							type="password" 
+							value={password} 
+							onChange={(e) => setPassword(e.target.value)} 
+							placeholder="Minimum 8 characters"
+							required 
+							minLength={8} 
+						/>
+					</div>
 
 					{config.role === 'STUDENT' && (
-						<label className="stack" style={{ gap: 6 }}>
-							<div style={{ fontSize: 13, color: '#374151' }}>Class Advisor <span style={{ color: '#ef4444' }}>*</span></div>
+						<div className="auth-form-group">
+							<label className="auth-label">
+								Class Advisor <span className="auth-required">*</span>
+							</label>
 							<select
-								className="input"
+								className="auth-select"
 								value={advisorId}
 								onChange={(e) => setAdvisorId(e.target.value)}
 								required
@@ -111,35 +134,29 @@ export default function Register() {
 								))}
 							</select>
 							{advisors.length === 0 && (
-								<div style={{ fontSize: 12, color: '#9ca3af' }}>No advisors available. Please contact admin.</div>
+								<span className="auth-hint">No advisors available. Please contact admin.</span>
 							)}
-						</label>
+						</div>
 					)}
 
-					{error ? <div className="error">{error}</div> : null}
+					{error && <div className="auth-error">{error}</div>}
 
-					<button className="button" type="submit" disabled={loading} style={{ backgroundColor: config.color }}>
+					<button 
+						className={`auth-button auth-button-${config.className}`} 
+						type="submit" 
+						disabled={loading}
+					>
 						{loading ? 'Creating...' : 'Create account'}
 					</button>
 				</form>
 
-				<div style={{ position: 'relative', textAlign: 'center', margin: '8px 0' }}>
-					<div style={{ borderTop: '1px solid #e5e7eb', position: 'absolute', top: '50%', left: 0, right: 0 }} />
-					<span style={{ backgroundColor: '#fff', padding: '0 12px', position: 'relative', fontSize: 12, color: '#9ca3af' }}>or</span>
+				<div className="divider-text">
+					<span>or</span>
 				</div>
 
 				<button 
 					type="button" 
-					className="button" 
-					style={{ 
-						backgroundColor: '#fff', 
-						color: '#374151', 
-						border: '1px solid #e5e7eb',
-						display: 'flex',
-						alignItems: 'center',
-						justifyContent: 'center',
-						gap: 10
-					}}
+					className="auth-social-button"
 					onClick={() => alert('Google Sign-Up requires OAuth setup. Please configure Google Cloud Console credentials.')}
 				>
 					<svg width="18" height="18" viewBox="0 0 24 24">
@@ -151,12 +168,16 @@ export default function Register() {
 					Continue with Google
 				</button>
 
-				<div style={{ fontSize: 13, color: '#374151' }}>
-					Already have an account? <Link to={`/login/${portal || 'student'}`} style={{ textDecoration: 'underline' }}>Login</Link>
-				</div>
-
-				<div style={{ textAlign: 'center', marginTop: 8 }}>
-					<Link to="/" style={{ fontSize: 13, color: '#6b7280', textDecoration: 'underline' }}>← Back to portal selection</Link>
+				<div className="auth-footer">
+					<div className="auth-footer-text">
+						Already have an account? <Link to={`/login/${portal || 'student'}`} className="auth-footer-link">Login</Link>
+					</div>
+					<Link to="/" className="auth-back-link">
+						<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+							<path d="M19 12H5M12 19l-7-7 7-7"/>
+						</svg>
+						Back to portal selection
+					</Link>
 				</div>
 			</div>
 		</div>

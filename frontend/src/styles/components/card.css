@@ -1,0 +1,247 @@
+/* ============================================
+   Card Components
+   ============================================ */
+
+/* Base Card */
+.card {
+  background: var(--bg-primary);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-xl);
+  padding: var(--spacing-6);
+  box-shadow: var(--shadow-sm);
+  transition: box-shadow var(--transition-base), transform var(--transition-base), border-color var(--transition-base);
+}
+
+/* Card Hover Effect */
+.card-hover:hover {
+  box-shadow: var(--shadow-md);
+  border-color: var(--border-color-dark);
+  transform: translateY(-2px);
+}
+
+/* Interactive Card */
+.card-interactive {
+  cursor: pointer;
+}
+
+.card-interactive:hover {
+  box-shadow: var(--shadow-lg);
+  border-color: var(--primary-200);
+  transform: translateY(-4px);
+}
+
+.card-interactive:active {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+}
+
+/* Card Header */
+.card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-bottom: var(--spacing-4);
+  margin-bottom: var(--spacing-4);
+  border-bottom: 1px solid var(--border-color-light);
+}
+
+.card-title {
+  font-size: var(--font-size-lg);
+  font-weight: var(--font-semibold);
+  color: var(--text-primary);
+  margin: 0;
+}
+
+.card-subtitle {
+  font-size: var(--font-size-sm);
+  color: var(--text-secondary);
+  margin-top: var(--spacing-1);
+}
+
+/* Card Body */
+.card-body {
+  padding: var(--spacing-4) 0;
+}
+
+/* Card Footer */
+.card-footer {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: var(--spacing-3);
+  padding-top: var(--spacing-4);
+  margin-top: var(--spacing-4);
+  border-top: 1px solid var(--border-color-light);
+}
+
+/* Compact Card */
+.card-compact {
+  padding: var(--spacing-4);
+}
+
+/* Card with Accent */
+.card-accent {
+  border-left: 4px solid var(--primary-500);
+}
+
+.card-accent-success {
+  border-left: 4px solid var(--success-500);
+}
+
+.card-accent-warning {
+  border-left: 4px solid var(--warning-500);
+}
+
+.card-accent-error {
+  border-left: 4px solid var(--error-500);
+}
+
+/* Card Variants */
+.card-primary {
+  background: linear-gradient(135deg, var(--primary-500) 0%, var(--primary-600) 100%);
+  border-color: transparent;
+  color: white;
+}
+
+.card-primary .card-title,
+.card-primary .card-subtitle {
+  color: white;
+}
+
+.card-primary .card-subtitle {
+  opacity: 0.9;
+}
+
+/* Stat Card */
+.stat-card {
+  text-align: center;
+  padding: var(--spacing-5);
+  background: var(--bg-primary);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-lg);
+  transition: all var(--transition-base);
+}
+
+.stat-card:hover {
+  box-shadow: var(--shadow-md);
+  transform: translateY(-2px);
+}
+
+.stat-card-value {
+  font-size: var(--font-size-3xl);
+  font-weight: var(--font-bold);
+  color: var(--text-primary);
+  line-height: 1;
+  margin-bottom: var(--spacing-2);
+}
+
+.stat-card-label {
+  font-size: var(--font-size-sm);
+  color: var(--text-secondary);
+  font-weight: var(--font-medium);
+}
+
+/* Colored Stat Cards */
+.stat-card-primary {
+  background: var(--primary-50);
+  border-color: var(--primary-100);
+}
+
+.stat-card-primary .stat-card-value {
+  color: var(--primary-600);
+}
+
+.stat-card-success {
+  background: var(--success-50);
+  border-color: var(--success-100);
+}
+
+.stat-card-success .stat-card-value {
+  color: var(--success-600);
+}
+
+.stat-card-warning {
+  background: var(--warning-50);
+  border-color: var(--warning-100);
+}
+
+.stat-card-warning .stat-card-value {
+  color: var(--warning-600);
+}
+
+.stat-card-error {
+  background: var(--error-50);
+  border-color: var(--error-100);
+}
+
+.stat-card-error .stat-card-value {
+  color: var(--error-600);
+}
+
+/* Feature Card */
+.feature-card {
+  padding: var(--spacing-6);
+  border-radius: var(--radius-xl);
+  background: var(--bg-primary);
+  border: 1px solid var(--border-color);
+  transition: all var(--transition-base);
+}
+
+.feature-card:hover {
+  border-color: var(--primary-200);
+  box-shadow: var(--shadow-lg);
+  transform: translateY(-4px);
+}
+
+.feature-card-icon {
+  width: 48px;
+  height: 48px;
+  border-radius: var(--radius-lg);
+  background: var(--primary-50);
+  color: var(--primary-600);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: var(--spacing-4);
+}
+
+.feature-card-title {
+  font-size: var(--font-size-lg);
+  font-weight: var(--font-semibold);
+  color: var(--text-primary);
+  margin-bottom: var(--spacing-2);
+}
+
+.feature-card-description {
+  font-size: var(--font-size-sm);
+  color: var(--text-secondary);
+  line-height: var(--leading-relaxed);
+}
+
+/* Empty State Card */
+.empty-card {
+  text-align: center;
+  padding: var(--spacing-12) var(--spacing-8);
+  background: var(--gray-50);
+  border: 2px dashed var(--border-color);
+  border-radius: var(--radius-xl);
+}
+
+.empty-card-icon {
+  width: 64px;
+  height: 64px;
+  margin: 0 auto var(--spacing-4);
+  color: var(--gray-300);
+}
+
+.empty-card-title {
+  font-size: var(--font-size-lg);
+  font-weight: var(--font-semibold);
+  color: var(--text-secondary);
+  margin-bottom: var(--spacing-2);
+}
+
+.empty-card-description {
+  font-size: var(--font-size-sm);
+  color: var(--text-muted);
+}

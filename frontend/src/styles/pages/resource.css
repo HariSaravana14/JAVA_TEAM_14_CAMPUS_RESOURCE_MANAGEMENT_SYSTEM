@@ -1,0 +1,312 @@
+/* ============================================
+   Resource Components Styles
+   ============================================ */
+
+/* Resource Card */
+.resource-card {
+  background: var(--bg-primary);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-xl);
+  padding: var(--spacing-5);
+  transition: all var(--transition-base);
+  display: flex;
+  flex-direction: column;
+}
+
+.resource-card:hover {
+  box-shadow: var(--shadow-md);
+  border-color: var(--border-color-dark);
+  transform: translateY(-2px);
+}
+
+.resource-card-available:hover {
+  border-color: var(--primary-300);
+}
+
+.resource-card-maintenance {
+  background: var(--warning-50);
+  border-color: var(--warning-200);
+}
+
+.resource-card-inactive {
+  background: var(--gray-50);
+  opacity: 0.7;
+}
+
+/* Resource Card Header */
+.resource-card-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  margin-bottom: var(--spacing-3);
+}
+
+.resource-card-name {
+  font-size: var(--font-size-lg);
+  font-weight: var(--font-semibold);
+  color: var(--text-primary);
+}
+
+.resource-card-status {
+  flex-shrink: 0;
+}
+
+/* Resource Card Body */
+.resource-card-body {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-2);
+}
+
+.resource-card-info {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-2);
+  font-size: var(--font-size-sm);
+  color: var(--text-secondary);
+}
+
+.resource-card-info-icon {
+  width: 16px;
+  height: 16px;
+  opacity: 0.6;
+}
+
+.resource-card-type {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--spacing-1);
+}
+
+.resource-card-capacity {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--spacing-1);
+}
+
+/* Resource Card Message (for unavailable resources) */
+.resource-card-message {
+  margin-top: var(--spacing-3);
+  padding: var(--spacing-3);
+  background: var(--warning-50);
+  border: 1px solid var(--warning-100);
+  border-radius: var(--radius-md);
+  font-size: var(--font-size-sm);
+  color: var(--warning-700);
+}
+
+/* Resource Card Footer */
+.resource-card-footer {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: var(--spacing-2);
+  margin-top: var(--spacing-4);
+  padding-top: var(--spacing-4);
+  border-top: 1px solid var(--border-color-light);
+}
+
+/* Resource Status Badges */
+.resource-status-available {
+  background: var(--success-50);
+  color: var(--success-700);
+  border-color: var(--success-200);
+}
+
+.resource-status-maintenance {
+  background: var(--warning-50);
+  color: var(--warning-700);
+  border-color: var(--warning-200);
+}
+
+.resource-status-inactive {
+  background: var(--gray-100);
+  color: var(--gray-500);
+  border-color: var(--gray-200);
+}
+
+/* Resource Management Table */
+.resource-table-name {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-3);
+}
+
+.resource-table-icon {
+  width: 36px;
+  height: 36px;
+  border-radius: var(--radius-lg);
+  background: var(--primary-50);
+  color: var(--primary-600);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.resource-table-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.resource-table-title {
+  font-weight: var(--font-medium);
+  color: var(--text-primary);
+}
+
+.resource-table-subtitle {
+  font-size: var(--font-size-xs);
+  color: var(--text-muted);
+}
+
+/* Resource Form */
+.resource-form {
+  background: var(--bg-primary);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-xl);
+  padding: var(--spacing-6);
+  box-shadow: var(--shadow-sm);
+}
+
+.resource-form-title {
+  font-size: var(--font-size-lg);
+  font-weight: var(--font-semibold);
+  color: var(--text-primary);
+  margin-bottom: var(--spacing-5);
+}
+
+.resource-form-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: var(--spacing-4);
+  margin-bottom: var(--spacing-5);
+}
+
+.resource-form-actions {
+  display: flex;
+  gap: var(--spacing-3);
+  justify-content: flex-end;
+}
+
+/* Resource Type Badge */
+.resource-type-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--spacing-1);
+  padding: var(--spacing-1) var(--spacing-2);
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-medium);
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  background: var(--gray-100);
+  color: var(--text-secondary);
+  border-radius: var(--radius-md);
+}
+
+.resource-type-lab {
+  background: var(--primary-50);
+  color: var(--primary-700);
+}
+
+.resource-type-room {
+  background: var(--success-50);
+  color: var(--success-700);
+}
+
+.resource-type-equipment {
+  background: var(--warning-50);
+  color: var(--warning-700);
+}
+
+/* Quick Actions for Resource Card */
+.resource-quick-actions {
+  display: flex;
+  gap: var(--spacing-2);
+}
+
+.resource-action-btn {
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--gray-50);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.resource-action-btn:hover {
+  background: var(--gray-100);
+  border-color: var(--border-color-dark);
+}
+
+.resource-action-btn svg {
+  width: 16px;
+  height: 16px;
+  color: var(--text-secondary);
+}
+
+.resource-action-btn-edit:hover {
+  background: var(--primary-50);
+  border-color: var(--primary-200);
+}
+
+.resource-action-btn-edit:hover svg {
+  color: var(--primary-600);
+}
+
+.resource-action-btn-delete:hover {
+  background: var(--error-50);
+  border-color: var(--error-200);
+}
+
+.resource-action-btn-delete:hover svg {
+  color: var(--error-600);
+}
+
+/* Inline Edit Row */
+.resource-edit-row {
+  background: var(--primary-50);
+}
+
+.resource-edit-input {
+  width: 100%;
+  padding: var(--spacing-2);
+  font-size: var(--font-size-sm);
+  border: 1px solid var(--primary-200);
+  border-radius: var(--radius-md);
+  background: var(--bg-primary);
+}
+
+.resource-edit-input:focus {
+  outline: none;
+  border-color: var(--primary-400);
+  box-shadow: 0 0 0 2px var(--primary-100);
+}
+
+/* Resource Empty State */
+.resource-empty {
+  text-align: center;
+  padding: var(--spacing-12);
+}
+
+.resource-empty-icon {
+  width: 64px;
+  height: 64px;
+  margin: 0 auto var(--spacing-4);
+  color: var(--gray-300);
+}
+
+.resource-empty-title {
+  font-size: var(--font-size-lg);
+  font-weight: var(--font-semibold);
+  color: var(--text-secondary);
+  margin-bottom: var(--spacing-2);
+}
+
+.resource-empty-desc {
+  font-size: var(--font-size-sm);
+  color: var(--text-muted);
+}

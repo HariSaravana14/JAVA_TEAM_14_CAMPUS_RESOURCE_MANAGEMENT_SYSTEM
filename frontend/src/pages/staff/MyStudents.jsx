@@ -53,151 +53,103 @@ export default function MyStudents() {
 	}
 
 	return (
-		<div className="container stack">
+		<div className="dashboard-layout">
 			<Navbar />
-			<div className="row" style={{ alignItems: 'flex-start' }}>
+			<div className="dashboard-container">
 				<Sidebar />
-				<div className="stack" style={{ flex: 1 }}>
-					<div className="card">
-						<div style={{ fontWeight: 800, fontSize: 18 }}>My Students</div>
-						<div style={{ marginTop: 8, fontSize: 13, color: '#374151' }}>
-							View and manage students assigned to you
+				<main className="dashboard-main">
+					<div className="page-header">
+						<div className="page-header-content">
+							<h1 className="page-title">My Students</h1>
+							<p className="page-subtitle">View and manage students assigned to you</p>
 						</div>
 					</div>
 
 					{/* Student Statistics */}
 					{stats && (
-						<div className="card">
-							<div style={{ fontWeight: 700, marginBottom: 12 }}>Student Statistics</div>
-							<div className="row" style={{ gap: 16 }}>
-								<div style={{ 
-									flex: 1, 
-									padding: 20, 
-									background: '#f3f4f6', 
-									borderRadius: 8, 
-									textAlign: 'center' 
-								}}>
-									<div style={{ fontSize: 32, fontWeight: 700, color: '#111827' }}>
-										{stats.totalStudents}
-									</div>
-									<div style={{ fontSize: 13, color: '#6b7280', marginTop: 4 }}>Total Students</div>
-								</div>
-								<div style={{ 
-									flex: 1, 
-									padding: 20, 
-									background: '#dcfce7', 
-									borderRadius: 8, 
-									textAlign: 'center' 
-								}}>
-									<div style={{ fontSize: 32, fontWeight: 700, color: '#166534' }}>
-										{stats.activeStudents}
-									</div>
-									<div style={{ fontSize: 13, color: '#166534', marginTop: 4 }}>Active Students</div>
-								</div>
-								<div style={{ 
-									flex: 1, 
-									padding: 20, 
-									background: '#fef2f2', 
-									borderRadius: 8, 
-									textAlign: 'center' 
-								}}>
-									<div style={{ fontSize: 32, fontWeight: 700, color: '#991b1b' }}>
-										{stats.inactiveStudents}
-									</div>
-									<div style={{ fontSize: 13, color: '#991b1b', marginTop: 4 }}>Inactive Students</div>
-								</div>
+						<div className="stats-grid">
+							<div className="stat-card stat-card-default">
+								<div className="stat-number">{stats.totalStudents}</div>
+								<div className="stat-label">Total Students</div>
+							</div>
+							<div className="stat-card stat-card-success">
+								<div className="stat-number">{stats.activeStudents}</div>
+								<div className="stat-label">Active Students</div>
+							</div>
+							<div className="stat-card stat-card-danger">
+								<div className="stat-number">{stats.inactiveStudents}</div>
+								<div className="stat-label">Inactive Students</div>
 							</div>
 						</div>
 					)}
 
-					{error ? <div className="error">{error}</div> : null}
+					{error && <div className="alert alert-error">{error}</div>}
 
 					{loading ? (
-						<div className="card">Loading...</div>
+						<div className="card loading-card">
+							<div className="loading-spinner"></div>
+							<span>Loading...</span>
+						</div>
 					) : (
 						<div className="card">
-							<div style={{ fontWeight: 700, marginBottom: 12 }}>Student List ({students.length})</div>
+							<div className="card-header">
+								<h2 className="card-title">Student List ({students.length})</h2>
+							</div>
 							{students.length === 0 ? (
-								<div style={{ color: '#6b7280', padding: 16, textAlign: 'center' }}>
-									No students assigned to you yet.
+								<div className="empty-state">
+									<p>No students assigned to you yet.</p>
 								</div>
 							) : (
-								<table style={{ width: '100%', borderCollapse: 'collapse', fontSize: 14 }}>
-									<thead>
-										<tr style={{ borderBottom: '2px solid #e5e7eb', textAlign: 'left' }}>
-											<th style={{ padding: '10px 8px' }}>Name</th>
-											<th style={{ padding: '10px 8px' }}>Email</th>
-											<th style={{ padding: '10px 8px' }}>Phone</th>
-											<th style={{ padding: '10px 8px' }}>Status</th>
-											<th style={{ padding: '10px 8px' }}>Action</th>
-										</tr>
-									</thead>
-									<tbody>
-										{students.map((student) => (
-											<tr key={student.id} style={{ borderBottom: '1px solid #f3f4f6' }}>
-												<td style={{ padding: '12px 8px', fontWeight: 500 }}>
-													{student.name}
-												</td>
-												<td style={{ padding: '12px 8px', fontSize: 13, color: '#6b7280' }}>
-													{student.email}
-												</td>
-												<td style={{ padding: '12px 8px', fontSize: 13, color: '#6b7280' }}>
-													{student.phone || '-'}
-												</td>
-												<td style={{ padding: '12px 8px' }}>
-													<span 
-														className="badge"
-														style={{
-															background: student.status === 'ACTIVE' ? '#dcfce7' : '#fef2f2',
-															color: student.status === 'ACTIVE' ? '#166534' : '#991b1b'
-														}}
-													>
-														{student.status}
-													</span>
-												</td>
-												<td style={{ padding: '12px 8px' }}>
-													{student.status === 'ACTIVE' ? (
-														<button
-															className="button"
-															type="button"
-															style={{ 
-																background: '#dc2626', 
-																padding: '6px 14px', 
-																fontSize: 12,
-																opacity: updating === student.id ? 0.6 : 1,
-																cursor: updating === student.id ? 'wait' : 'pointer'
-															}}
-															onClick={() => onToggleStatus(student)}
-															disabled={updating === student.id}
-														>
-															{updating === student.id ? 'Updating...' : 'Deactivate'}
-														</button>
-													) : (
-														<button
-															className="button"
-															type="button"
-															style={{ 
-																background: '#16a34a', 
-																padding: '6px 14px', 
-																fontSize: 12,
-																opacity: updating === student.id ? 0.6 : 1,
-																cursor: updating === student.id ? 'wait' : 'pointer'
-															}}
-															onClick={() => onToggleStatus(student)}
-															disabled={updating === student.id}
-														>
-															{updating === student.id ? 'Updating...' : 'Activate'}
-														</button>
-													)}
-												</td>
+								<div className="table-container">
+									<table className="table">
+										<thead>
+											<tr>
+												<th>Name</th>
+												<th>Email</th>
+												<th>Phone</th>
+												<th>Status</th>
+												<th>Action</th>
 											</tr>
-										))}
-									</tbody>
-								</table>
+										</thead>
+										<tbody>
+											{students.map((student) => (
+												<tr key={student.id}>
+													<td className="table-bold">{student.name}</td>
+													<td className="table-muted">{student.email}</td>
+													<td className="table-muted">{student.phone || '-'}</td>
+													<td>
+														<span className={`badge badge-${student.status.toLowerCase()}`}>
+															{student.status}
+														</span>
+													</td>
+													<td>
+														{student.status === 'ACTIVE' ? (
+															<button
+																className="btn btn-danger btn-sm"
+																onClick={() => onToggleStatus(student)}
+																disabled={updating === student.id}
+															>
+																{updating === student.id ? 'Updating...' : 'Deactivate'}
+															</button>
+														) : (
+															<button
+																className="btn btn-success btn-sm"
+																onClick={() => onToggleStatus(student)}
+																disabled={updating === student.id}
+															>
+																{updating === student.id ? 'Updating...' : 'Activate'}
+															</button>
+														)}
+													</td>
+												</tr>
+											))}
+										</tbody>
+									</table>
+								</div>
 							)}
 						</div>
 					)}
-				</div>
+				</main>
 			</div>
 		</div>
 	)

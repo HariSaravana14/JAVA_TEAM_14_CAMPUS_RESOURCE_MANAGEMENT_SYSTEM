@@ -49,30 +49,48 @@ export default function StudentDashboard() {
 	}
 
 	return (
-		<div className="container stack">
+		<div className="dashboard-layout">
 			<Navbar />
-			<div className="row" style={{ alignItems: 'flex-start' }}>
+			<div className="dashboard-container">
 				<Sidebar />
-				<div className="stack" style={{ flex: 1 }}>
-					<div className="card">
-						<div style={{ fontWeight: 800, fontSize: 18 }}>Student Dashboard</div>
-						<div style={{ marginTop: 8, color: '#374151', fontSize: 13 }}>
-							Available resources: <b>{availableCount}</b>
+				<main className="dashboard-main">
+					<div className="page-header">
+						<div className="page-header-content">
+							<h1 className="page-title">Student Dashboard</h1>
+							<p className="page-subtitle">
+								Available resources: <strong>{availableCount}</strong>
+							</p>
 						</div>
-						{policy ? (
-							<div style={{ marginTop: 10 }} className="row">
-								<span className="badge">Remaining bookings today: {policy.remainingBookingsToday}</span>
-								<span className="badge">Remaining hours today: {policy.remainingHoursToday}</span>
-								<span className="badge">Remaining bookings this month: {policy.remainingBookingsThisMonth}</span>
-								<span className="badge">Remaining hours this month: {policy.remainingHoursThisMonth}</span>
-							</div>
-						) : null}
 					</div>
 
-					{error ? <div className="error">{error}</div> : null}
+					{policy && (
+						<div className="stats-grid">
+							<div className="stat-card">
+								<span className="stat-value">{policy.remainingBookingsToday}</span>
+								<span className="stat-label">Bookings Today</span>
+							</div>
+							<div className="stat-card">
+								<span className="stat-value">{policy.remainingHoursToday}h</span>
+								<span className="stat-label">Hours Today</span>
+							</div>
+							<div className="stat-card">
+								<span className="stat-value">{policy.remainingBookingsThisMonth}</span>
+								<span className="stat-label">Bookings This Month</span>
+							</div>
+							<div className="stat-card">
+								<span className="stat-value">{policy.remainingHoursThisMonth}h</span>
+								<span className="stat-label">Hours This Month</span>
+							</div>
+						</div>
+					)}
+
+					{error && <div className="alert alert-error">{error}</div>}
 
 					{loading ? (
-						<div className="card">Loading...</div>
+						<div className="card loading-card">
+							<div className="loading-spinner"></div>
+							<span>Loading...</span>
+						</div>
 					) : (
 						<>
 							<BookingForm
@@ -82,8 +100,10 @@ export default function StudentDashboard() {
 							/>
 
 							<div className="card">
-								<div style={{ fontWeight: 700, marginBottom: 12 }}>Resources</div>
-								<div className="row">
+								<div className="card-header">
+									<h2 className="card-title">Resources</h2>
+								</div>
+								<div className="resource-grid">
 									{resources.map((r) => (
 										<ResourceCard
 											key={r.id}
@@ -95,7 +115,7 @@ export default function StudentDashboard() {
 							</div>
 						</>
 					)}
-				</div>
+				</main>
 			</div>
 		</div>
 	)
