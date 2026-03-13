@@ -9,6 +9,7 @@ export default function PendingApprovals() {
 	const [loading, setLoading] = useState(true)
 	const [error, setError] = useState('')
 	const [actionInProgress, setActionInProgress] = useState(null)
+	const [sidebarOpen, setSidebarOpen] = useState(false)
 
 	const load = async () => {
 		setLoading(true)
@@ -55,9 +56,9 @@ export default function PendingApprovals() {
 
 	return (
 		<div className="dashboard-layout">
-			<Navbar />
+			<Navbar onMenuToggle={() => setSidebarOpen((v) => !v)} />
 			<div className="dashboard-container">
-				<Sidebar />
+				<Sidebar isOpen={sidebarOpen} onClose={() => setSidebarOpen(false)} />
 				<main className="dashboard-main">
 					<div className="page-header">
 						<div className="page-header-content">

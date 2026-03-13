@@ -15,6 +15,7 @@ export default function MyBookings() {
 	const [error, setError] = useState('')
 	const [selectedBooking, setSelectedBooking] = useState(null)
 	const [viewMode, setViewMode] = useState('table')
+	const [sidebarOpen, setSidebarOpen] = useState(false)
 
 	useEffect(() => {
 		const run = async () => {
@@ -51,9 +52,9 @@ export default function MyBookings() {
 
 	return (
 		<div className="dashboard-layout">
-			<Navbar />
+			<Navbar onMenuToggle={() => setSidebarOpen((v) => !v)} />
 			<div className="dashboard-container">
-				<Sidebar />
+				<Sidebar isOpen={sidebarOpen} onClose={() => setSidebarOpen(false)} />
 				<main className="dashboard-main">
 					<div className="page-header">
 						<div className="page-header-content">

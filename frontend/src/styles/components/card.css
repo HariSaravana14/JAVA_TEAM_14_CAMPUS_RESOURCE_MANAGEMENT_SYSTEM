@@ -5,7 +5,7 @@
 /* Base Card */
 .card {
   background: var(--bg-primary);
-  border: 1px solid var(--border-color);
+  border: 1px solid var(--border-color-light);
   border-radius: var(--radius-xl);
   padding: var(--spacing-6);
   box-shadow: var(--shadow-sm);
@@ -14,9 +14,9 @@
 
 /* Card Hover Effect */
 .card-hover:hover {
-  box-shadow: var(--shadow-md);
+  box-shadow: var(--shadow-lg);
   border-color: var(--border-color-dark);
-  transform: translateY(-2px);
+  transform: translateY(-3px);
 }
 
 /* Interactive Card */
@@ -117,9 +117,10 @@
   text-align: center;
   padding: var(--spacing-5);
   background: var(--bg-primary);
-  border: 1px solid var(--border-color);
-  border-radius: var(--radius-lg);
+  border: 1px solid var(--border-color-light);
+  border-radius: var(--radius-xl);
   transition: all var(--transition-base);
+  box-shadow: var(--shadow-sm);
 }
 
 .stat-card:hover {
@@ -183,8 +184,9 @@
   padding: var(--spacing-6);
   border-radius: var(--radius-xl);
   background: var(--bg-primary);
-  border: 1px solid var(--border-color);
+  border: 1px solid var(--border-color-light);
   transition: all var(--transition-base);
+  box-shadow: var(--shadow-sm);
 }
 
 .feature-card:hover {

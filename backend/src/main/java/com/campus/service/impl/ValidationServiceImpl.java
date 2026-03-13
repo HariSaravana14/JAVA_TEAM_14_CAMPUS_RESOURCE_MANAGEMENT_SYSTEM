@@ -35,9 +35,9 @@ public class ValidationServiceImpl implements ValidationService {
 	private static final LocalTime OPERATING_START = LocalTime.of(9, 0);
 	private static final LocalTime OPERATING_END = LocalTime.of(16, 0);
 	
-	// Lunch break: 12:30 PM to 1:30 PM
-	private static final LocalTime LUNCH_START = LocalTime.of(12, 30);
-	private static final LocalTime LUNCH_END = LocalTime.of(13, 30);
+	// Lunch break: 12:00 PM to 1:00 PM
+	private static final LocalTime LUNCH_START = LocalTime.of(12, 0);
+	private static final LocalTime LUNCH_END = LocalTime.of(13, 0);
 
 	private final ResourceRepository resourceRepository;
 	private final BookingRepository bookingRepository;
@@ -85,7 +85,7 @@ public class ValidationServiceImpl implements ValidationService {
 
 		// Validate lunch break - check if booking overlaps with lunch
 		if (isOverlapping(startTime, endTime, LUNCH_START, LUNCH_END)) {
-			throw new ConflictException("Booking cannot overlap with lunch break (12:30 PM - 1:30 PM)");
+			throw new ConflictException("Booking cannot overlap with lunch break (12:00 PM - 1:00 PM)");
 		}
 
 		// If booking for today, ensure start time is not in the past

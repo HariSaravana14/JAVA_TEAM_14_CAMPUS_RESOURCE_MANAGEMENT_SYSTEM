@@ -61,11 +61,14 @@ const StudentsIcon = () => (
 	</svg>
 )
 
-export default function Sidebar() {
+export default function Sidebar({ isOpen, onClose }) {
 	const { user } = useAuth()
 
 	return (
-		<aside className="sidebar">
+		<>
+			{/* Backdrop for mobile */}
+			{isOpen && <div className="sidebar-backdrop" onClick={onClose} />}
+			<aside className={`sidebar ${isOpen ? 'sidebar-open' : ''}`}>
 			<nav className="sidebar-nav">
 				{user?.role === 'ADMIN' && (
 					<>
@@ -92,6 +95,7 @@ export default function Sidebar() {
 				)}
 			</nav>
 		</aside>
+		</>
 	)
 }
 

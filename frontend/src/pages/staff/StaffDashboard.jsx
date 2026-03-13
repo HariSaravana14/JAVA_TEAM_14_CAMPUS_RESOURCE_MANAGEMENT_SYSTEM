@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react'
+import { useEffect, useMemo, useRef, useState } from 'react'
 import Navbar from '../../components/layout/Navbar'
 import Sidebar from '../../components/layout/Sidebar'
 import BookingForm from '../../components/booking/BookingForm'
@@ -26,11 +26,18 @@ export default function StaffDashboard() {
 	const [loading, setLoading] = useState(true)
 	const [actionInProgress, setActionInProgress] = useState(null)
 	const [activeTab, setActiveTab] = useState('overview')
+	const [sidebarOpen, setSidebarOpen] = useState(false)
+	const bookingFormRef = useRef(null)
 
 	const availableCount = useMemo(
 		() => resources.filter((r) => r.status === 'AVAILABLE').length,
 		[resources]
 	)
+
+	const formatRemaining = (value, unit = '') => {
+		if (policy?.unlimited) return 'Unlimited'
+		return `${value}${unit}`
+	}
 
 	const load = async () => {
 		setLoading(true)
@@ -96,9 +103,9 @@ export default function StaffDashboard() {
 
 	return (
 		<div className="dashboard-layout">
-			<Navbar />
+			<Navbar onMenuToggle={() => setSidebarOpen((v) => !v)} />
 			<div className="dashboard-container">
-				<Sidebar />
+				<Sidebar isOpen={sidebarOpen} onClose={() => setSidebarOpen(false)} />
 				<main className="dashboard-main">
 					{/* Header */}
 					<div className="page-header">
@@ -112,11 +119,11 @@ export default function StaffDashboard() {
 					{policy && (
 						<div className="stats-grid stats-grid-2">
 							<div className="stat-card">
-								<span className="stat-value">{policy.remainingBookingsToday}</span>
+								<span className="stat-value">{formatRemaining(policy.remainingBookingsToday)}</span>
 								<span className="stat-label">Bookings Today</span>
 							</div>
 							<div className="stat-card">
-								<span className="stat-value">{policy.remainingHoursToday}h</span>
+								<span className="stat-value">{formatRemaining(policy.remainingHoursToday, 'h')}</span>
 								<span className="stat-label">Hours Today</span>
 							</div>
 						</div>
@@ -281,12 +288,6 @@ export default function StaffDashboard() {
 					{/* Create Booking Tab */}
 					{!loading && activeTab === 'create' && (
 						<>
-							<BookingForm
-								resources={resources}
-								initialResourceId={selectedResourceId}
-								onSubmit={handleCreateBooking}
-							/>
-
 							<div className="card">
 								<div className="card-header">
 									<h2 className="card-title">Resources ({availableCount} available)</h2>
@@ -296,10 +297,23 @@ export default function StaffDashboard() {
 										<ResourceCard
 											key={r.id}
 											resource={r}
-											onSelect={() => setSelectedResourceId(r.id)}
+											onSelect={() => {
+												setSelectedResourceId(r.id)
+												setTimeout(() => {
+													bookingFormRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' })
+												}, 100)
+											}}
 										/>
 									))}
 								</div>
+							</div>
+
+							<div ref={bookingFormRef}>
+								<BookingForm
+									resources={resources}
+									initialResourceId={selectedResourceId}
+									onSubmit={handleCreateBooking}
+								/>
 							</div>
 						</>
 					)}

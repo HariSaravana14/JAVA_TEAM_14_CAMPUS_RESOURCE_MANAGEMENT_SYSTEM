@@ -9,7 +9,7 @@
   justify-content: space-between;
   padding: var(--spacing-4) var(--spacing-6);
   background: var(--bg-primary);
-  border: 1px solid var(--border-color);
+  border: 1px solid var(--border-color-light);
   border-radius: var(--radius-xl);
   box-shadow: var(--shadow-sm);
 }
@@ -154,8 +154,33 @@
   color: var(--error-600);
 }
 
+/* Hamburger Button (hidden on desktop) */
+.hamburger-btn {
+  display: none;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  padding: 0;
+  background: transparent;
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  color: var(--text-primary);
+  cursor: pointer;
+  transition: background var(--transition-fast);
+  flex-shrink: 0;
+}
+
+.hamburger-btn:hover {
+  background: var(--gray-100);
+}
+
 /* Responsive */
 @media (max-width: 768px) {
+  .hamburger-btn {
+    display: flex;
+  }
+
   .navbar {
     padding: var(--spacing-3) var(--spacing-4);
     flex-wrap: wrap;

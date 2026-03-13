@@ -1,5 +1,6 @@
 import { createContext, useCallback, useEffect, useMemo, useState } from 'react'
 import * as authApi from '../api/authApi'
+import useIdleTimer from '../hooks/useIdleTimer'
 
 export const AuthContext = createContext(null)
 
@@ -60,6 +61,14 @@ export function AuthProvider({ children }) {
 		setAuth({ token: data.token, user: data.user, expiresAt: data.expiresAt })
 		return data
 	}, [])
+
+	// Idle-timeout: auto-logout STUDENT/STAFF after 5 min of inactivity.
+	// ADMIN is exempt (enabled = false).
+	useIdleTimer({
+		timeout: 5 * 60 * 1000,
+		onIdle: logout,
+		enabled: isAuthenticated && user?.role !== 'ADMIN',
+	})
 
 	const value = useMemo(
 		() => ({

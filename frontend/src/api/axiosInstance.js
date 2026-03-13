@@ -1,6 +1,6 @@
 import axios from 'axios'
 
-const apiBaseUrl = import.meta.env.VITE_API_BASE_URL || 'http://localhost:8081'
+const apiBaseUrl = import.meta.env.VITE_API_BASE_URL || `http://${window.location.hostname}:8081`
 
 export const axiosInstance = axios.create({
 	baseURL: apiBaseUrl,

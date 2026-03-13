@@ -39,7 +39,7 @@ public class PolicyServiceImpl implements PolicyService {
 	public PolicyRemainingResponse remainingForUser(User user) {
 		BookingPolicy policy = getPolicy(user.getRole());
 		if (Boolean.TRUE.equals(policy.getIsUnlimited())) {
-			return new PolicyRemainingResponse(user.getRole(), true, Integer.MAX_VALUE, Integer.MAX_VALUE, Integer.MAX_VALUE, Integer.MAX_VALUE);
+			return new PolicyRemainingResponse(user.getRole(), true, 0, 0, 0, 0);
 		}
 
 		LocalDate today = LocalDate.now();

@@ -16,6 +16,7 @@ export default function ResourceManagement() {
 	const [loading, setLoading] = useState(true)
 	const [error, setError] = useState('')
 	const [saving, setSaving] = useState(null)
+	const [sidebarOpen, setSidebarOpen] = useState(false)
 
 	// Create form state
 	const [name, setName] = useState('')
@@ -109,9 +110,9 @@ export default function ResourceManagement() {
 
 	return (
 		<div className="dashboard-layout">
-			<Navbar />
+			<Navbar onMenuToggle={() => setSidebarOpen((v) => !v)} />
 			<div className="dashboard-container">
-				<Sidebar />
+				<Sidebar isOpen={sidebarOpen} onClose={() => setSidebarOpen(false)} />
 				<main className="dashboard-main">
 					<div className="page-header">
 						<div className="page-header-content">

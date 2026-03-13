@@ -11,6 +11,7 @@ export default function AdminDashboard() {
 	const [policy, setPolicy] = useState(null)
 	const [loading, setLoading] = useState(true)
 	const [error, setError] = useState('')
+	const [sidebarOpen, setSidebarOpen] = useState(false)
 
 	const load = async () => {
 		setLoading(true)
@@ -56,11 +57,16 @@ export default function AdminDashboard() {
 	const approvedCount = bookings.filter(b => ['APPROVED', 'APPROVED_STAFF_ONLY'].includes(b.approvalStage)).length
 	const rejectedCount = bookings.filter(b => b.approvalStage === 'REJECTED').length
 
+	const formatRemaining = (value, unit = '') => {
+		if (policy?.unlimited) return 'Unlimited'
+		return `${value}${unit}`
+	}
+
 	return (
 		<div className="dashboard-layout">
-			<Navbar />
+			<Navbar onMenuToggle={() => setSidebarOpen((v) => !v)} />
 			<div className="dashboard-container">
-				<Sidebar />
+				<Sidebar isOpen={sidebarOpen} onClose={() => setSidebarOpen(false)} />
 				<main className="dashboard-main">
 					<div className="page-header">
 						<div className="page-header-content">
@@ -72,11 +78,11 @@ export default function AdminDashboard() {
 					{policy && (
 						<div className="stats-grid stats-grid-2">
 							<div className="stat-card">
-								<span className="stat-value">{policy.remainingBookingsToday}</span>
+								<span className="stat-value">{formatRemaining(policy.remainingBookingsToday)}</span>
 								<span className="stat-label">Bookings Today</span>
 							</div>
 							<div className="stat-card">
-								<span className="stat-value">{policy.remainingHoursToday}h</span>
+								<span className="stat-value">{formatRemaining(policy.remainingHoursToday, 'h')}</span>
 								<span className="stat-label">Hours Today</span>
 							</div>
 						</div>

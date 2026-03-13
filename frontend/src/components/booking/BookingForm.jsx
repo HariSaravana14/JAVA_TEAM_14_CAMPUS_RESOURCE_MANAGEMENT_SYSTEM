@@ -130,7 +130,7 @@ export default function BookingForm({ resources, onSubmit, initialResourceId }) 
 					<div style={{ fontSize: 13, color: '#374151' }}>
 						Available Time Slots
 						<span style={{ fontSize: 11, color: '#6b7280', marginLeft: 8 }}>
-							(9 AM - 4 PM, Lunch: 12:30 - 1:30 PM blocked)
+							(9 AM - 4 PM, Lunch: 12:00 - 1:00 PM blocked)
 						</span>
 					</div>
 

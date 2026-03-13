@@ -1,5 +1,14 @@
 package com.campus.service.impl;
 
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.UUID;
+
+import org.springframework.stereotype.Service;
+
 import com.campus.dto.response.TimeSlotResponse;
 import com.campus.entity.Booking;
 import com.campus.entity.Resource;
@@ -10,16 +19,9 @@ import com.campus.exception.ResourceNotFoundException;
 import com.campus.repository.BookingRepository;
 import com.campus.repository.ResourceRepository;
 import com.campus.service.SlotService;
+
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.stereotype.Service;
-
-import java.time.LocalDate;
-import java.time.LocalTime;
-import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
 
 @Slf4j
 @Service
@@ -33,9 +35,9 @@ public class SlotServiceImpl implements SlotService {
 	private static final LocalTime OPERATING_START = LocalTime.of(9, 0);
 	private static final LocalTime OPERATING_END = LocalTime.of(16, 0);
 	
-	// Lunch break: 12:30 PM to 1:30 PM
-	private static final LocalTime LUNCH_START = LocalTime.of(12, 30);
-	private static final LocalTime LUNCH_END = LocalTime.of(13, 30);
+	// Lunch break: 12:00 PM to 1:00 PM
+	private static final LocalTime LUNCH_START = LocalTime.of(12, 0);
+	private static final LocalTime LUNCH_END = LocalTime.of(13, 0);
 	
 	// Slot duration in minutes
 	private static final int SLOT_DURATION_MINUTES = 60;

@@ -15,7 +15,7 @@ function formatTime(ms) {
 	return `${minutes}:${String(seconds).padStart(2, '0')}`
 }
 
-export default function Navbar() {
+export default function Navbar({ onMenuToggle }) {
 	const { user, expiresAt, logout } = useAuth()
 	const navigate = useNavigate()
 	const [timeLeft, setTimeLeft] = useState(expiresAt ? expiresAt - Date.now() : 0)
@@ -51,6 +51,15 @@ export default function Navbar() {
 
 	return (
 		<nav className="navbar">
+			{onMenuToggle && (
+				<button className="hamburger-btn" type="button" onClick={onMenuToggle} aria-label="Toggle menu">
+					<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
+						<line x1="3" y1="6" x2="21" y2="6" />
+						<line x1="3" y1="12" x2="21" y2="12" />
+						<line x1="3" y1="18" x2="21" y2="18" />
+					</svg>
+				</button>
+			)}
 			<div className="navbar-brand">
 				<div className="navbar-logo">CR</div>
 				<span>Campus Resource Booking</span>
