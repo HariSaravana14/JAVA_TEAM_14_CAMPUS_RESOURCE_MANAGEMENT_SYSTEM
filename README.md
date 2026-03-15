@@ -1,16 +1,34 @@
 ﻿# 🏫 Campus Resource Management System (CRMS)
 
-CRMS is a role-based web application for booking campus resources (rooms/labs/etc.) with a **2-step approval workflow (Staff → Admin)** for student bookings and a **direct Admin workflow** for staff bookings.
+CRMS is a role-based web application for booking campus resources (rooms, labs, etc.) with a **2-step approval workflow (Staff → Admin)** for student bookings and a **direct Admin workflow** for staff bookings.
 
 ---
 
-## ✨ Highlights
+## 📝 Project Overview
 
-- 🔐 JWT-based authentication with role portals (Student / Staff / Admin)
-- ✅ 2-stage approval pipeline for student bookings (Staff → Admin)
-- 🧑‍🏫 Advisor-based staff approvals for student requests
-- 🕒 Hourly slot booking with operating rules (incl. lunch break)
-- 📊 Staff statistics + admin management (resources/users/bookings)
+- Centralized booking of campus resources with clear visibility of approvals and history.
+- Separate portals and permissions for **Students**, **Staff**, and **Admins**.
+- 2-stage approval pipeline for student bookings (Staff → Admin) and direct Admin approval for staff bookings.
+- Policy-driven limits for daily/monthly bookings and hours to prevent abuse.
+
+---
+
+## 🏗️ System Architecture
+
+- **Frontend**: React 18 + Vite SPA communicating with the backend via Axios.
+- **Backend**: Spring Boot REST API secured with JWT (Spring Security).
+- **Database**: MySQL 8+ using Spring Data JPA + Hibernate with UUID-based entities.
+- **Auth Flow**: Frontend stores JWT in localStorage; every API call attaches `Authorization: Bearer <token>`.
+
+```text
+[Browser (Student / Staff / Admin)]
+          ↓
+   [React + Vite SPA]
+          ↓ (Axios + JWT)
+ [Spring Boot REST API]
+          ↓
+        [MySQL]
+```
 
 ---
 
@@ -32,13 +50,18 @@ CRMS is a role-based web application for booking campus resources (rooms/labs/et
 
 ## 🗂️ Table of Contents
 
+- [Project Overview](#project-overview)
+- [System Architecture](#system-architecture)
+- [Tech Stack](#tech-stack)
 - [Project Structure](#project-structure)
-- [Roles & Features](#roles--features)
+- [Features](#features)
+- [Roles & Capabilities](#roles--capabilities)
 - [Workflow](#workflow)
-- [Local Setup](#local-setup)
+- [Setup Instructions](#setup-instructions)
 - [Frontend Routes](#frontend-routes)
 - [API Overview](#api-overview)
 - [Database Structure](#database-structure)
+- [Screenshots](#screenshots)
 - [Notes](#notes)
 - [Push to GitHub](#push-to-github)
 
@@ -87,14 +110,25 @@ campus-resource-management/
 
 ---
 
-## 👥 Roles & Features
+## ✨ Features
+
+- 🔐 Role-based JWT authentication with separate portals for Student, Staff, and Admin.
+- ✅ 2-stage approval pipeline for student bookings (Staff → Admin) and direct Admin approval for staff bookings.
+- 🕒 Hourly slot booking with operating rules (working hours, lunch break, no past slots).
+- 🧑‍🏫 Advisor-based staff approvals and student management.
+- 📊 Staff statistics plus admin management for resources, users, and bookings.
+- 📏 Policy-based limits (per day/month bookings and hours) with support for unlimited roles.
+
+---
+
+## 👥 Roles & Capabilities
 
 ### 🎓 Student
 
 - Register/Login (advisor selection required at registration)
 - Browse resources and create booking requests
 - View “My Bookings” with point-to-point approval progress and booking details
-- Policy remaining limits (daily/monthly bookings and hours)
+- See remaining policy limits (daily/monthly bookings and hours)
 
 ### 🧑‍🏫 Staff
 
@@ -158,7 +192,7 @@ Otherwise, validations enforce:
 
 ---
 
-## 🚀 Local Setup
+## 🚀 Setup Instructions
 
 ### ✅ Prerequisites
 
@@ -326,6 +360,12 @@ The system uses UUIDs stored as `CHAR(36)` in MySQL.
 - `expires_at`, `created_at`
 
 </details>
+
+---
+
+## 🖼️ Screenshots
+
+_Add screenshots of the Student, Staff, and Admin dashboards here once available (for example: login page, booking form, approval views, and admin management screens)._ 
 
 ---
 
